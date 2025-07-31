@@ -15,6 +15,9 @@ const glob = require("glob");
 // Import configuration
 const config = require("../config/book.config.js");
 
+// Import emoji validation
+const { validateEmojis } = require("./validate-emojis.js");
+
 class BookBuilder {
   constructor(options = {}) {
     this.options = {
@@ -40,6 +43,9 @@ class BookBuilder {
 
       // Validate prerequisites
       await this.validatePrerequisites();
+
+      // Validate emoji usage (quality gate)
+      await this.validateEmojiUsage();
 
       // Clean build directory if requested
       if (this.options.clean) {
@@ -133,6 +139,18 @@ class BookBuilder {
           )
         );
       }
+    }
+  }
+
+  /**
+   * Validate emoji usage in book content files (quality gate)
+   */
+  async validateEmojiUsage() {
+    try {
+      // Run emoji validation - this will throw an error if validation fails
+      validateEmojis();
+    } catch (error) {
+      throw new Error(`Emoji validation failed: ${error.message}`);
     }
   }
 
