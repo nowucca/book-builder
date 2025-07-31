@@ -195,10 +195,13 @@ function validateEmojis() {
     }
     
     console.log('\nTo fix these issues:');
-    console.log('1. Remove the unapproved emojis from the files listed above');
-    console.log('2. Replace with approved alternatives if needed');
-    console.log('3. Or add the emoji to the approved list in tools/scripts/validate-emojis.js');
+    console.log('1. Run the emoji stripping tool: node tools/scripts/strip-emojis.js');
+    console.log('2. Manually remove specific emojis from the files listed above');
+    console.log('3. Replace with approved alternatives if needed');
+    console.log('4. Or add the emoji to the approved list in tools/scripts/validate-emojis.js');
     console.log('\nApproved emojis:', Array.from(approvedEmojis).join(' '));
+    console.log('\n💡 TIP: Use the automated stripping tool to quickly resolve most violations:');
+    console.log('   node tools/scripts/strip-emojis.js');
     
     process.exit(1);
   } else {
