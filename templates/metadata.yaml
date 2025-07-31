@@ -1,0 +1,81 @@
+---
+title: "The Constellize Method"
+subtitle: "Building Software Systems from Knowledge"
+author: "Steve Atkinson"
+publisher: "Constellize Press"
+date: \today
+lang: en-US
+subject: "Software Engineering Methodology"
+keywords: 
+  - "Software Engineering"
+  - "AI"
+  - "Development"
+  - "Constellize"
+  - "Knowledge Management"
+  - "System Architecture"
+description: |
+  A comprehensive guide to building software systems by starting from knowledge rather than assumptions. The Constellize method shows how to gather context, connect reliable components, and generate precisely what's needed to complete your system constellation.
+
+# PDF/X-1a metadata for print compliance
+pdfx:
+  title: "The Constellize Method: Building Software Systems from Knowledge"
+  author: "Steve Atkinson"
+  subject: "Software Engineering Methodology"
+  keywords: "Software Engineering, AI, Development, Constellize, Knowledge Management"
+  creator: "Pandoc with XeLaTeX"
+  producer: "Constellize Press"
+  trapped: "False"
+
+# Book structure
+book:
+  chapters:
+    - "Introduction and the Constellize Method"
+    - "Knowledge Gathering via the Constellize Method"
+    - "Building from Knowledge"
+    - "Code That Shines Like a Star"
+    - "Scaling Knowledge Systems"
+    - "AI as a Knowledge Amplifier"
+    - "Evolving Systems Over Time"
+    - "Teams and Knowledge Stewardship"
+    - "The Future of Knowledge-Driven Development"
+  appendices:
+    - "CodePromptu Implementation Guide"
+    - "Tool Recommendations"
+    - "Further Reading"
+    - "Glossary"
+
+# Copyright and legal
+copyright: "© 2025 Steve Atkinson. All rights reserved."
+license: "All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the publisher."
+
+# ISBN and publishing details
+isbn: ""  # To be filled when available
+isbn13: ""  # To be filled when available
+edition: "First Edition"
+version: "1.0.0"
+
+# Technical metadata
+format: "PDF/X-1a"
+colorspace: "CMYK"
+resolution: "300 DPI"
+font: "Atkinson Hyperlegible"
+
+# Table of contents settings
+toc-title: "Contents"
+toc-depth: 3
+lot: false  # List of tables
+lof: false  # List of figures
+
+# Cross-reference settings
+link-citations: true
+reference-section-title: "References"
+
+# Code highlighting
+highlight-style: "github"
+listings: true
+
+# Custom variables for template
+book-style: true
+professional: true
+print-ready: true
+---

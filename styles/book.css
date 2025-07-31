@@ -1,0 +1,247 @@
+/* Constellize Book CSS Styles */
+
+/* Base typography using system fonts as fallback */
+body {
+  font-family: "Atkinson Hyperlegible", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: #333;
+  background: #fff;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+h1 { font-size: 2.5rem; color: #1a1a1a; }
+h2 { font-size: 2rem; color: #2a2a2a; }
+h3 { font-size: 1.5rem; color: #3a3a3a; }
+h4 { font-size: 1.25rem; color: #4a4a4a; }
+
+/* Code blocks */
+code, pre {
+  font-family: "Atkinson Hyperlegible Mono", "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+  font-size: 0.9em;
+}
+
+pre {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+code {
+  background: #f1f3f4;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* Links */
+a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Callout boxes */
+.callout {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.callout-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Code Reference Callout - Blue */
+.callout.codeReference {
+  background: #f0f8ff;
+  border-left-color: #0066cc;
+}
+
+.callout.codeReference .callout-title {
+  color: #0066cc;
+}
+
+/* System Architecture Callout - Purple */
+.callout.architecture {
+  background: #f8f0ff;
+  border-left-color: #7c3aed;
+}
+
+.callout.architecture .callout-title {
+  color: #7c3aed;
+}
+
+/* Narrative Context Callout - Gray */
+.callout.narrative {
+  background: #f8f9fa;
+  border-left-color: #6c757d;
+}
+
+.callout.narrative .callout-title {
+  color: #6c757d;
+}
+
+/* Implementation Pattern Callout - Green */
+.callout.implementation {
+  background: #f0fff4;
+  border-left-color: #22c55e;
+}
+
+.callout.implementation .callout-title {
+  color: #22c55e;
+}
+
+/* Cross-reference Callout - Orange */
+.callout.crossreference {
+  background: #fff8f0;
+  border-left-color: #f97316;
+}
+
+.callout.crossreference .callout-title {
+  color: #f97316;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+th, td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+th {
+  background: #f8f9fa;
+  font-weight: bold;
+}
+
+/* Lists */
+ul, ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+li {
+  margin: 0.5rem 0;
+}
+
+/* Blockquotes */
+blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  background: #f8f9fa;
+  border-left: 4px solid #dee2e6;
+  font-style: italic;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+  border-radius: 4px;
+}
+
+/* Table of Contents */
+#TOC {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+#TOC ul {
+  list-style: none;
+  padding-left: 1rem;
+}
+
+#TOC > ul {
+  padding-left: 0;
+}
+
+#TOC a {
+  color: #495057;
+  text-decoration: none;
+}
+
+#TOC a:hover {
+  color: #0066cc;
+  text-decoration: underline;
+}
+
+/* Print styles */
+@media print {
+  body {
+    max-width: none;
+    margin: 0;
+    padding: 1rem;
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+  
+  .callout {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+  
+  pre {
+    break-inside: avoid;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    break-after: avoid;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+  
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+  
+  .callout {
+    padding: 1rem;
+  }
+  
+  pre {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+}

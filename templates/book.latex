@@ -1,0 +1,339 @@
+% Constellize Book LaTeX Template
+% PDF/X-1a compliant template with Atkinson Hyperlegible font
+
+\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(papersize)$$papersize$paper,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
+
+% Fix for Pandoc's tightlist command - must be early
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% PDF/X-1a Compliance
+\usepackage[x-1a]{pdfx}
+\usepackage[cmyk]{xcolor}
+
+% Font setup
+\usepackage{fontspec}
+
+% Atkinson Hyperlegible fonts with absolute paths
+\setmainfont{AtkinsonHyperlegibleNext-Regular.ttf}[
+  Path = \string~/Work/constellize/book/tools/fonts/,
+  BoldFont = AtkinsonHyperlegibleNext-Bold.ttf,
+  ItalicFont = AtkinsonHyperlegibleNext-RegularItalic.ttf,
+  BoldItalicFont = AtkinsonHyperlegibleNext-BoldItalic.ttf,
+  Ligatures = TeX
+]
+
+\setsansfont{AtkinsonHyperlegibleNext-Regular.ttf}[
+  Path = \string~/Work/constellize/book/tools/fonts/,
+  BoldFont = AtkinsonHyperlegibleNext-Bold.ttf,
+  ItalicFont = AtkinsonHyperlegibleNext-RegularItalic.ttf,
+  BoldItalicFont = AtkinsonHyperlegibleNext-BoldItalic.ttf,
+  Ligatures = TeX
+]
+
+\setmonofont{AtkinsonHyperlegibleMono-Regular.ttf}[
+  Path = \string~/Work/constellize/book/tools/fonts/,
+  BoldFont = AtkinsonHyperlegibleMono-Bold.ttf,
+  ItalicFont = AtkinsonHyperlegibleMono-RegularItalic.ttf,
+  BoldItalicFont = AtkinsonHyperlegibleMono-BoldItalic.ttf,
+  Scale = 0.9
+]
+
+% Add symbol support
+\usepackage{newunicodechar}
+\newfontfamily\symbolfont{Menlo}[Scale=0.9]
+
+% Add checkmark symbol
+\usepackage{amssymb}
+
+% Define checkmark symbols with fallback
+\newunicodechar{✓}{\checkmark}
+\newunicodechar{✔}{\checkmark}
+\newunicodechar{✅}{\checkmark}
+
+% Define tree drawing characters
+\newunicodechar{├}{\symbolfont ├}
+\newunicodechar{─}{\symbolfont ─}
+\newunicodechar{└}{\symbolfont └}
+\newunicodechar{│}{\symbolfont │}
+
+% Remove emojis completely - they will be stripped from the text during processing
+% Define fallback for any remaining emoji characters to be invisible
+\newcommand{\stripemoji}[1]{}
+
+% Enhanced typography
+\usepackage{microtype}
+\usepackage{lettrine}
+
+% Fix for Pandoc's tightlist command
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Page layout - simple approach without geometry package
+\usepackage[letterpaper,margin=1in,bindingoffset=0.2in]{geometry}
+
+% Better spacing
+\usepackage{setspace}
+$if(linestretch)$
+\setstretch{$linestretch$}
+$else$
+\onehalfspacing
+$endif$
+
+% Language and encoding - simplified for English
+\usepackage{polyglossia}
+\setmainlanguage{english}
+
+% Better tables
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+
+% Graphics and figures
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+
+% Define pandocbounded command for newer Pandoc versions
+\providecommand{\pandocbounded}[1]{#1}
+
+% Code highlighting
+\usepackage{fancyvrb}
+\usepackage{listings}
+
+% Better code block handling to prevent overfull boxes
+% Use default fancyvrb settings to avoid conflicts
+
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+% Custom callout boxes using tcolorbox
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable,skins}
+
+% Define callout environments with simple titles
+\newtcolorbox{codereference}{
+  colback=blue!5!white,
+  colframe=blue!75!black,
+  title={\textbf{Code Reference}},
+  breakable,
+  enhanced,
+  attach boxed title to top left={yshift=-2mm, xshift=2mm},
+  boxed title style={size=small,colback=blue!75!black},
+  before upper={\parindent15pt}
+}
+
+\newtcolorbox{architecture}{
+  colback=purple!5!white,
+  colframe=purple!75!black,
+  title={\textbf{System Architecture}},
+  breakable,
+  enhanced,
+  attach boxed title to top left={yshift=-2mm, xshift=2mm},
+  boxed title style={size=small,colback=purple!75!black},
+  before upper={\parindent15pt}
+}
+
+\newtcolorbox{narrative}{
+  colback=gray!5!white,
+  colframe=gray!75!black,
+  title={\textbf{Narrative Context}},
+  breakable,
+  enhanced,
+  attach boxed title to top left={yshift=-2mm, xshift=2mm},
+  boxed title style={size=small,colback=gray!75!black},
+  before upper={\parindent15pt}
+}
+
+\newtcolorbox{implementation}{
+  colback=green!5!white,
+  colframe=green!75!black,
+  title={\textbf{Implementation Pattern}},
+  breakable,
+  enhanced,
+  attach boxed title to top left={yshift=-2mm, xshift=2mm},
+  boxed title style={size=small,colback=green!75!black},
+  before upper={\parindent15pt}
+}
+
+\newtcolorbox{crossreference}{
+  colback=orange!5!white,
+  colframe=orange!75!black,
+  title={\textbf{Related Components}},
+  breakable,
+  enhanced,
+  attach boxed title to top left={yshift=-2mm, xshift=2mm},
+  boxed title style={size=small,colback=orange!75!black},
+  before upper={\parindent15pt}
+}
+
+% Chapter and section styling
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{truncate}
+
+% Customize chapter titles
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries}
+  {\chaptertitlename\ \thechapter}
+  {20pt}
+  {\Huge}
+
+% Customize section titles
+\titleformat{\section}
+  {\normalfont\Large\bfseries}
+  {\thesection}
+  {1em}
+  {}
+
+% Fix running headers to prevent overfull hbox
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\nouppercase{\leftmark}}
+\fancyhead[RE]{\nouppercase{\rightmark}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
+
+% Fix header height warning
+\setlength{\headheight}{14pt}
+
+% Prevent overfull headers by truncating long titles
+\makeatletter
+\renewcommand{\chaptermark}[1]{%
+  \markboth{\thechapter.\ \truncate{0.8\textwidth}{#1}}{}}
+\renewcommand{\sectionmark}[1]{%
+  \markright{\thesection.\ \truncate{0.8\textwidth}{#1}}}
+\makeatother
+
+% Links and URLs - hyperref already loaded by pdfx
+\usepackage{url}
+
+% Bibliography
+$if(natbib)$
+\usepackage{natbib}
+\bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
+$endif$
+
+$if(biblatex)$
+\usepackage[$if(biblio-style)$style=$biblio-style$,$endif$$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$]{biblatex}
+$for(bibliography)$
+\addbibresource{$bibliography$}
+$endfor$
+$endif$
+
+% Index
+$if(book-style)$
+\usepackage{makeidx}
+\makeindex
+$endif$
+
+% Header includes
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+% Title page
+\title{$title$$if(subtitle)$\\[0.5em]{\large $subtitle$}$endif$}
+$if(author)$
+\author{$for(author)$$author$$sep$ \and $endfor$}
+$endif$
+$if(date)$
+\date{$date$}
+$endif$
+
+\begin{document}
+
+% Title page
+$if(title)$
+\maketitle
+$endif$
+
+% Copyright page
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+$if(copyright)$
+$copyright$
+$endif$
+
+\vspace{1em}
+
+$if(publisher)$
+Published by $publisher$
+$endif$
+
+$if(edition)$
+\vspace{1em}
+$edition$
+$endif$
+
+$if(isbn)$
+\vspace{1em}
+ISBN: $isbn$
+$endif$
+
+\vspace{1em}
+
+$if(license)$
+$license$
+$endif$
+\end{center}
+\vspace*{\fill}
+\clearpage
+
+% Table of contents
+$if(toc)$
+{
+$if(colorlinks)$
+\hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$black$endif$}
+$endif$
+\setcounter{tocdepth}{$toc-depth$}
+\tableofcontents
+}
+$endif$
+
+% List of figures
+$if(lof)$
+\listoffigures
+$endif$
+
+% List of tables
+$if(lot)$
+\listoftables
+$endif$
+
+% Main content
+$body$
+
+% Bibliography
+$if(natbib)$
+$if(bibliography)$
+$if(biblio-title)$
+$if(book-class)$
+\renewcommand\bibname{$biblio-title$}
+$else$
+\renewcommand\refname{$biblio-title$}
+$endif$
+$endif$
+\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
+$endif$
+$endif$
+
+$if(biblatex)$
+\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+$endif$
+
+% Index
+$if(book-style)$
+\printindex
+$endif$
+
+\end{document}

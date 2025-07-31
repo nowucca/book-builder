@@ -1,0 +1,89 @@
+{
+  "name": "constellize-book-tools",
+  "version": "1.0.0",
+  "description": "Book processing tools for The Constellize Method using Pandoc",
+  "main": "scripts/build-book.js",
+  "scripts": {
+    "build": "node scripts/build-book.js",
+    "build:web": "node scripts/build-book.js --target web",
+    "build:pdf": "node scripts/build-book.js --target pdf",
+    "build:development": "node scripts/build-book.js --target development",
+    "build:epub": "node scripts/build-book.js --target epub",
+    "build:all": "node scripts/build-book.js --target all",
+    "validate": "node scripts/validate-links.js",
+    "validate:links": "node scripts/validate-links.js",
+    "validate:structure": "node scripts/validate-structure.js",
+    "process:links": "node scripts/process-links.js",
+    "process:images": "node scripts/process-images.js --dpi 300",
+    "process:callouts": "node scripts/generate-callouts.js",
+    "fonts:install": "node scripts/install-fonts.js",
+    "fonts:check": "node scripts/check-fonts.js",
+    "clean": "node scripts/clean-build.js",
+    "watch": "nodemon scripts/build-book.js --target development --watch",
+    "serve": "node scripts/serve-development.js",
+    "test": "node scripts/test-build.js",
+    "pandoc:test": "pandoc --version && xelatex --version",
+    "setup": "npm run fonts:install && npm run pandoc:test",
+    "dev": "npm run build:development && npm run serve"
+  },
+  "keywords": [
+    "pandoc",
+    "book",
+    "publishing",
+    "pdf",
+    "markdown",
+    "latex",
+    "constellize"
+  ],
+  "author": "Steve Atkinson",
+  "license": "MIT",
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "glob": "^10.3.10",
+    "yaml": "^2.3.4",
+    "sharp": "^0.33.2",
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0",
+    "chokidar": "^3.5.3",
+    "express": "^4.18.2",
+    "mime-types": "^2.1.35"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3",
+    "jest": "^29.7.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/constellize-book.git",
+    "directory": "tools"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/constellize-book/issues"
+  },
+  "homepage": "https://github.com/yourusername/constellize-book#readme",
+  "config": {
+    "pandoc": {
+      "minVersion": "3.0.0"
+    },
+    "xelatex": {
+      "required": true
+    },
+    "fonts": {
+      "atkinson": {
+        "required": true,
+        "url": "https://brailleinstitute.org/freefont"
+      }
+    }
+  },
+  "files": [
+    "config/",
+    "scripts/",
+    "templates/",
+    "styles/",
+    "fonts/",
+    "README.md"
+  ]
+}
