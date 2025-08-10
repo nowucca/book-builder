@@ -201,6 +201,15 @@ class BookBuilder {
       allFiles.push(...chapterFiles);
     }
 
+    // Add references after chapters if it exists
+    if (config.source.references) {
+      const referencesPath = path.resolve(this.rootDir, config.source.references);
+      if (await fs.pathExists(referencesPath)) {
+        allFiles.push(referencesPath);
+        console.log(chalk.gray("Added references"));
+      }
+    }
+
     // Add appendices
     for (const pattern of config.source.appendices) {
       const appendixPattern = path.resolve(this.rootDir, pattern);
@@ -436,6 +445,24 @@ class BookBuilder {
     pandocArgs.push(`--to=${outputConfig.format}`);
     pandocArgs.push(`--output="${outputPath}"`);
 
+    // Add citation processing for all formats
+    if (config.citations) {
+      pandocArgs.push("--citeproc");
+      
+      // Add bibliography
+      const bibliographyPath = path.resolve(this.rootDir, config.citations.bibliography);
+      if (await fs.pathExists(bibliographyPath)) {
+        pandocArgs.push(`--bibliography="${bibliographyPath}"`);
+      }
+      
+      // Add citation style
+      const citationStyle = config.citations.outputStyles[this.options.target] || config.citations.defaultStyle;
+      const stylePath = path.resolve(this.rootDir, config.citations.styles[citationStyle]);
+      if (await fs.pathExists(stylePath)) {
+        pandocArgs.push(`--csl="${stylePath}"`);
+      }
+    }
+
     // Check if this is a PDF target (including new targets)
     const isPdfTarget = outputConfig.format === 'pdf';
 
@@ -529,6 +556,12 @@ class BookBuilder {
       if (await fs.pathExists(chapterFile)) {
         files.push(chapterFile);
       }
+    }
+
+    // Add references after chapters but before appendices
+    const referencesFile = path.join(intermediateDir, "references.md");
+    if (await fs.pathExists(referencesFile)) {
+      files.push(referencesFile);
     }
 
     // Add appendices in order

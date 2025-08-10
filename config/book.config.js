@@ -22,6 +22,7 @@ module.exports = {
     root: path.resolve(__dirname, '../..'),
     foreword: 'foreword-faq.md', // Foreword comes first
     chapters: ['ch[1-9].md'], // Main chapters
+    bibliography: 'references.json', // Bibliography database (CSL-JSON)
     appendices: ['app[A-D].md'], // Appendices
     codebase: './codepromptu',
     images: './images',
@@ -38,7 +39,8 @@ module.exports = {
       'ch4a.md',
       'example-chapter.md',
       'README-teaser.md',
-      'tone.md'
+      'tone.md',
+      'references.md' // Exclude old manual references file
     ]
   },
 
@@ -110,6 +112,24 @@ module.exports = {
       'tools/templates/filters/link-filter.lua'
     ],
     metadata: 'tools/templates/metadata.yaml'
+  },
+
+  // Citation configuration
+  citations: {
+    bibliography: 'references.json', // Bibliography database file
+    defaultStyle: 'apa', // Default citation style
+    styles: {
+      apa: 'tools/styles/citations/apa.csl',
+      chicago: 'tools/styles/citations/chicago-author-date.csl',
+      ieee: 'tools/styles/citations/ieee.csl'
+    },
+    // Style per output format (optional overrides)
+    outputStyles: {
+      pdf: 'apa',
+      web: 'apa',
+      development: 'apa',
+      epub: 'apa'
+    }
   },
 
   // Font configuration for Atkinson Hyperlegible
