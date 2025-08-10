@@ -1,5 +1,5 @@
-% Constellize Book LaTeX Template
-% PDF/X-1a compliant template with Atkinson Hyperlegible font
+% Constellize Book LaTeX Template - Print Version
+% PDF/X-1a compliant template for professional printing
 
 \documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(papersize)$$papersize$paper,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
 
@@ -7,7 +7,7 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-% PDF/X-1a Compliance
+% PDF/X-1a Compliance for print production
 \usepackage[x-1a]{pdfx}
 \usepackage[cmyk]{xcolor}
 
@@ -178,10 +178,17 @@ $endif$
 \usepackage{fancyhdr}
 \usepackage{truncate}
 
-% Customize chapter titles
+% Customize chapter titles with automatic numbering
 \titleformat{\chapter}[display]
   {\normalfont\huge\bfseries}
   {\chaptertitlename\ \thechapter}
+  {20pt}
+  {\Huge}
+
+% Customize unnumbered chapter titles (for foreword)
+\titleformat{name=\chapter,numberless}[display]
+  {\normalfont\huge\bfseries}
+  {}
   {20pt}
   {\Huge}
 
@@ -199,21 +206,11 @@ $endif$
 \fancyhead[LO]{\nouppercase{\leftmark}}
 \fancyhead[RE]{\nouppercase{\rightmark}}
 \renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
-\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
 
 % Fix header height warning
 \setlength{\headheight}{14pt}
 
-% Prevent overfull headers by truncating long titles
-\makeatletter
-\renewcommand{\chaptermark}[1]{%
-  \markboth{\thechapter.\ \truncate{0.8\textwidth}{#1}}{}}
-\renewcommand{\sectionmark}[1]{%
-  \markright{\thesection.\ \truncate{0.8\textwidth}{#1}}}
-\makeatother
-
-% Links and URLs - hyperref already loaded by pdfx
+% Links and URLs - hyperref loaded by pdfx but with print settings
 \usepackage{url}
 
 % Bibliography
@@ -289,12 +286,9 @@ $endif$
 \vspace*{\fill}
 \clearpage
 
-% Table of contents
+% Table of contents (no hyperlinks in print version)
 $if(toc)$
 {
-$if(colorlinks)$
-\hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$black$endif$}
-$endif$
 \setcounter{tocdepth}{$toc-depth$}
 \tableofcontents
 }

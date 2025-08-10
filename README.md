@@ -132,17 +132,17 @@ The build system will replace `{REPO_BASE}` with the appropriate URL for each ou
 Create rich callout boxes using blockquote syntax:
 
 ```markdown
-> **📁 Code Reference: [Prompt Controller]({REPO_BASE}/codepromptu/src/api/src/main/java/com/codepromptu/api/controller/PromptController.java)**
+> ** Code Reference: [Prompt Controller]({REPO_BASE}/codepromptu/src/api/src/main/java/com/codepromptu/api/controller/PromptController.java)**
 > 
 > The PromptController demonstrates RESTful API design with proper error handling and validation. Notice how it delegates business logic to the service layer while maintaining clean separation of concerns.
 ```
 
 Available callout types:
-- `📁 Code Reference` - Links to specific code files
-- `🏗️ System Architecture` - Architectural diagrams and explanations  
-- `📖 Narrative Context` - Links to narrative/process documentation
+- ` Code Reference` - Links to specific code files
+- `️ System Architecture` - Architectural diagrams and explanations  
+- ` Narrative Context` - Links to narrative/process documentation
 - `⚡ Implementation Pattern` - Design patterns and best practices
-- `🔗 Related Components` - Cross-references to related code
+- ` Related Components` - Cross-references to related code
 
 ## Configuration
 

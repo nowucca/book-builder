@@ -91,8 +91,11 @@ class BookBuilder {
       );
     }
 
-    // Check XeLaTeX for PDF builds
-    if (this.options.target === "pdf" || this.options.target === "all") {
+    // Check XeLaTeX for PDF builds (including new targets)
+    const outputConfig = config.outputs[this.options.target];
+    const isPdfTarget = outputConfig && outputConfig.format === 'pdf';
+    
+    if (isPdfTarget || this.options.target === "all") {
       try {
         // Try with extended PATH for macOS TeX Live
         const extendedPath =
@@ -225,6 +228,9 @@ class BookBuilder {
     // Read source file
     let content = await fs.readFile(filePath, "utf8");
 
+    // Handle special formatting for foreword and appendices
+    content = this.processSpecialSections(content, fileName);
+
     // Add chapter image if this is a chapter
     content = await this.addChapterImage(content, fileName);
 
@@ -236,6 +242,63 @@ class BookBuilder {
 
     // Write processed file
     await fs.writeFile(outputPath, content, "utf8");
+  }
+
+  /**
+   * Process special sections (foreword, appendices) for proper numbering
+   */
+  processSpecialSections(content, fileName) {
+    // Handle foreword - make it unnumbered
+    if (fileName === 'foreword-faq.md') {
+      // Convert ## heading to # for chapter level, but make it unnumbered
+      content = content.replace(/^## \*\*Foreword: Before You Ask\*\*$/m, '# Foreword {.unnumbered}');
+      
+      // Convert ### headings to ## headings and make them unnumbered
+      content = content.replace(/^### /gm, '## ');
+      
+      // Add LaTeX command to disable section numbering for the foreword
+      const lines = content.split('\n');
+      let insertIndex = -1;
+
+      for (let i = 0; i < lines.length; i++) {
+        if (lines[i].startsWith('# Foreword')) {
+          insertIndex = i + 1;
+          break;
+        }
+      }
+
+      if (insertIndex !== -1) {
+        lines.splice(insertIndex, 0, '\\setcounter{secnumdepth}{-1}');
+        // Add restore numbering at the very end of the content
+        lines.push('\\setcounter{secnumdepth}{3}');
+      }
+      content = lines.join('\n');
+    }
+
+    // Handle appendices - add appendix marker
+    const appendixMatch = fileName.match(/^app([A-D])\.md$/);
+    if (appendixMatch) {
+      // Add appendix command before the first heading
+      const lines = content.split('\n');
+      let insertIndex = -1;
+
+      for (let i = 0; i < lines.length; i++) {
+        if (lines[i].startsWith('# ')) {
+          insertIndex = i;
+          break;
+        }
+      }
+
+      if (insertIndex !== -1) {
+        // Only add \appendix for the first appendix (A)
+        if (appendixMatch[1] === 'A') {
+          lines.splice(insertIndex, 0, '\\appendix\n');
+        }
+      }
+      content = lines.join('\n');
+    }
+
+    return content;
   }
 
   /**
@@ -362,7 +425,7 @@ class BookBuilder {
     const outputConfig = config.outputs[this.options.target];
     const outputPath = this.getOutputPath();
 
-    // Build Pandoc command - different approach for HTML vs PDF
+    // Build Pandoc command - different approach for HTML vs PDF vs EPUB
     let pandocArgs = ["pandoc"];
 
     // Get all intermediate files in correct order
@@ -373,13 +436,33 @@ class BookBuilder {
     pandocArgs.push(`--to=${outputConfig.format}`);
     pandocArgs.push(`--output="${outputPath}"`);
 
-    if (this.options.target === "pdf") {
+    // Check if this is a PDF target (including new targets)
+    const isPdfTarget = outputConfig.format === 'pdf';
+
+    if (isPdfTarget) {
       // PDF-specific settings
       pandocArgs.push(
         `--defaults=${path.resolve(this.rootDir, config.pandoc.defaultsFile)}`
       );
       pandocArgs.push(`--pdf-engine=${outputConfig.engine}`);
       pandocArgs.push(`--dpi=${outputConfig.dpi}`);
+      
+      // Choose template based on PDF type
+      let templatePath;
+      if (outputConfig.pdfType === 'x1a' || this.options.target === 'print') {
+        templatePath = path.resolve(this.toolsDir, 'templates/book-print.latex');
+      } else {
+        templatePath = path.resolve(this.toolsDir, 'templates/book-digital.latex');
+      }
+      pandocArgs.push(`--template="${templatePath}"`);
+      
+    } else if (outputConfig.format === 'epub3') {
+      // EPUB-specific settings
+      pandocArgs.push("--standalone");
+      pandocArgs.push("--toc");
+      pandocArgs.push(`--metadata title="${config.book.title}"`);
+      pandocArgs.push(`--metadata author="${config.book.author}"`);
+      
     } else {
       // HTML-specific settings
       pandocArgs.push("--standalone");
@@ -412,7 +495,7 @@ class BookBuilder {
       };
 
       // For PDF builds, extend PATH to include TeX Live
-      if (this.options.target === "pdf") {
+      if (isPdfTarget) {
         const extendedPath =
           process.env.PATH +
           ":/usr/local/texlive/2025/bin/universal-darwin:/usr/local/texlive/2024/bin/universal-darwin:/usr/local/texlive/2023/bin/universal-darwin";

@@ -52,19 +52,29 @@ module.exports = {
 
   // Output configurations for different targets
   outputs: {
-    web: {
-      directory: './build/web',
-      repoBaseUrl: 'https://github.com/yourusername/constellize-book/blob/main',
-      format: 'html5',
-      standalone: true
-    },
-    pdf: {
-      directory: './build/pdf',
+    digital: {
+      directory: './build/digital',
       repoBaseUrl: 'https://github.com/yourusername/constellize-book/blob/main',
       format: 'pdf',
       engine: 'xelatex',
       dpi: 300,
-      colorProfile: 'FOGRA39', // PDF/X-1a compliance
+      pdfType: 'interactive', // Enable hyperlinks and bookmarks
+      standalone: true
+    },
+    print: {
+      directory: './build/print',
+      repoBaseUrl: 'https://github.com/yourusername/constellize-book/blob/main',
+      format: 'pdf',
+      engine: 'xelatex',
+      dpi: 300,
+      pdfType: 'x1a', // PDF/X-1a compliance for printing
+      colorProfile: 'FOGRA39',
+      standalone: true
+    },
+    web: {
+      directory: './build/web',
+      repoBaseUrl: 'https://github.com/yourusername/constellize-book/blob/main',
+      format: 'html5',
       standalone: true
     },
     development: {
@@ -77,6 +87,16 @@ module.exports = {
       directory: './build/epub',
       repoBaseUrl: 'https://github.com/yourusername/constellize-book/blob/main',
       format: 'epub3',
+      standalone: true
+    },
+    // Legacy alias for backward compatibility
+    pdf: {
+      directory: './build/digital', // Default to digital format
+      repoBaseUrl: 'https://github.com/yourusername/constellize-book/blob/main',
+      format: 'pdf',
+      engine: 'xelatex',
+      dpi: 300,
+      pdfType: 'interactive',
       standalone: true
     }
   },

@@ -23,7 +23,7 @@ toc: true
 toc-depth: 3
 
 # Section numbering
-number-sections: false
+number-sections: true
 
 # Cross-references
 citeproc: true
@@ -67,10 +67,12 @@ variables:
   # Geometry (book dimensions)
   geometry: "papersize=letter,margin=1in,bindingoffset=0.2in,heightrounded"
   
-  # Colors (CMYK for print)
-  linkcolor: "blue"
+  # Colors and links
+  colorlinks: true
+  linkcolor: "black"
   urlcolor: "blue"
   citecolor: "blue"
+  toccolor: "black"
   
   # Code styling
   listings: true
