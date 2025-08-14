@@ -117,7 +117,7 @@ module.exports = {
   // Citation configuration
   citations: {
     bibliography: 'references.json', // Bibliography database file
-    defaultStyle: 'apa', // Default citation style
+    defaultStyle: 'chicago', // Default citation style
     styles: {
       apa: 'tools/styles/citations/apa.csl',
       chicago: 'tools/styles/citations/chicago-author-date.csl',
@@ -125,10 +125,12 @@ module.exports = {
     },
     // Style per output format (optional overrides)
     outputStyles: {
-      pdf: 'apa',
-      web: 'apa',
-      development: 'apa',
-      epub: 'apa'
+      digital: 'chicago',
+      print: 'chicago',
+      pdf: 'chicago',
+      web: 'chicago',
+      development: 'chicago',
+      epub: 'chicago'
     }
   },
 

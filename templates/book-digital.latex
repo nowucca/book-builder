@@ -73,6 +73,17 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
+% Fix for Pandoc's citeproc command - define it to just output the formatted citation
+\providecommand{\citeproc}[2]{#2}
+
+% Fix for Pandoc's citeproctext command - handle both with and without arguments
+\providecommand{\citeproctext}[1][]{\ifx\relax#1\relax\else#1\fi}
+
+% Fix for Pandoc's CSLReferences environment
+\newenvironment{CSLReferences}[2]
+  {\begin{list}{}{\setlength{\leftmargin}{#1em}\setlength{\itemindent}{-#1em}\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}}}
+  {\end{list}}
+
 % Page layout - simple approach without geometry package
 \usepackage[letterpaper,margin=1in,bindingoffset=0.2in]{geometry}
 

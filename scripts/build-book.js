@@ -259,49 +259,43 @@ class BookBuilder {
   processSpecialSections(content, fileName) {
     // Handle foreword - make it unnumbered
     if (fileName === 'foreword-faq.md') {
-      // Convert ## heading to # for chapter level, but make it unnumbered
-      content = content.replace(/^## \*\*Foreword: Before You Ask\*\*$/m, '# Foreword {.unnumbered}');
+      // Convert the first ## **Foreword** to # Foreword {.unnumbered}
+      content = content.replace(/^## \*\*Foreword\*\*$/m, '# Foreword {.unnumbered}');
       
-      // Convert ### headings to ## headings and make them unnumbered
-      content = content.replace(/^### /gm, '## ');
+      // Convert all other ## headings to ## headings with {.unnumbered}
+      content = content.replace(/^## \*\*([^*]+)\*\*$/gm, '## $1 {.unnumbered}');
       
-      // Add LaTeX command to disable section numbering for the foreword
-      const lines = content.split('\n');
-      let insertIndex = -1;
-
-      for (let i = 0; i < lines.length; i++) {
-        if (lines[i].startsWith('# Foreword')) {
-          insertIndex = i + 1;
-          break;
-        }
-      }
-
-      if (insertIndex !== -1) {
-        lines.splice(insertIndex, 0, '\\setcounter{secnumdepth}{-1}');
-        // Add restore numbering at the very end of the content
-        lines.push('\\setcounter{secnumdepth}{3}');
-      }
-      content = lines.join('\n');
+      // Convert ### headings to ## headings with {.unnumbered}
+      content = content.replace(/^### (.+)$/gm, '## $1 {.unnumbered}');
     }
 
-    // Handle appendices - add appendix marker
+    // Handle appendices - add appendix marker and fix titles
     const appendixMatch = fileName.match(/^app([A-D])\.md$/);
     if (appendixMatch) {
-      // Add appendix command before the first heading
+      const appendixLetter = appendixMatch[1];
       const lines = content.split('\n');
       let insertIndex = -1;
+      let titleIndex = -1;
 
       for (let i = 0; i < lines.length; i++) {
         if (lines[i].startsWith('# ')) {
           insertIndex = i;
+          titleIndex = i;
           break;
         }
       }
 
       if (insertIndex !== -1) {
         // Only add \appendix for the first appendix (A)
-        if (appendixMatch[1] === 'A') {
+        if (appendixLetter === 'A') {
           lines.splice(insertIndex, 0, '\\appendix\n');
+          titleIndex++; // Adjust title index after insertion
+        }
+        
+        // Update the title to include "Appendix X:"
+        if (titleIndex !== -1) {
+          const originalTitle = lines[titleIndex].replace(/^# +/, '');
+          lines[titleIndex] = `# Appendix ${appendixLetter}: ${originalTitle}`;
         }
       }
       content = lines.join('\n');
@@ -332,7 +326,10 @@ class BookBuilder {
       // For PDF, Pandoc runs from root dir, so we need build/assets/images path
       // For HTML, use relative path from output HTML to build/assets
       // Remove alt text to avoid captions
-      if (this.options.target === "pdf") {
+      const outputConfig = config.outputs[this.options.target];
+      const isPdfTarget = outputConfig && outputConfig.format === 'pdf';
+      
+      if (isPdfTarget) {
         // PDF: Pandoc runs from root, processes build/intermediate/*.md, needs build/assets/images
         imageMarkdown = `\n![](build/assets/images/chapters/ch${chapterNum}.png)\n`;
       } else {
@@ -354,7 +351,10 @@ class BookBuilder {
       );
 
       // Same logic for appendices - remove alt text to avoid captions
-      if (this.options.target === "pdf") {
+      const outputConfig = config.outputs[this.options.target];
+      const isPdfTarget = outputConfig && outputConfig.format === 'pdf';
+      
+      if (isPdfTarget) {
         imageMarkdown = `\n![](build/assets/images/appendices/app${appendixLetter}.png)\n`;
       } else {
         imageMarkdown = `\n![](../assets/images/appendices/app${appendixLetter}.png)\n`;
