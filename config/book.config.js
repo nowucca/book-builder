@@ -8,7 +8,7 @@ const path = require('path');
 module.exports = {
   // Book metadata
   book: {
-    title: "The Constellize Method",
+    title: "Constellize: Top Down Development, Reimagined",
     subtitle: "Building Software Systems from Knowledge",
     author: "Steve Atkinson",
     version: "1.0.0",
@@ -21,7 +21,7 @@ module.exports = {
   source: {
     root: path.resolve(__dirname, '../..'),
     foreword: 'foreword-faq.md', // Foreword comes first
-    chapters: ['ch[1-9].md'], // Main chapters
+    chapters: ['ch[1-9].md', 'ch10.md'], // Main chapters (1-10)
     bibliography: 'references.json', // Bibliography database (CSL-JSON)
     appendices: ['app[A-D].md'], // Appendices
     codebase: './codepromptu',
