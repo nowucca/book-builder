@@ -551,7 +551,7 @@ class BookBuilder {
     }
 
     // Add chapters in order
-    for (let i = 1; i <= 9; i++) {
+    for (let i = 1; i <= 10; i++) {
       const chapterFile = path.join(intermediateDir, `ch${i}.md`);
       if (await fs.pathExists(chapterFile)) {
         files.push(chapterFile);
