@@ -21,9 +21,9 @@ module.exports = {
   source: {
     root: path.resolve(__dirname, '../..'),
     foreword: 'foreword-faq.md', // Foreword comes first
-    chapters: ['ch[1-9].md', 'ch10.md'], // Main chapters (1-10)
+    chapters: ['ch[1-9].md'], // Main chapters (1-9)
     bibliography: 'references.json', // Bibliography database (CSL-JSON)
-    appendices: ['app[A-D].md'], // Appendices
+    appendices: ['app[A-G].md'], // Appendices (A-G)
     codebase: './codepromptu',
     images: './images',
     media: './media',

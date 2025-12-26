@@ -3,96 +3,42 @@ Callout Filter for Constellize Book
 Processes custom callout syntax in markdown and converts to appropriate format
 ]]--
 
--- Callout configurations
+-- Callout configurations (without emoji icons for PDF compatibility)
 local callouts = {
-  codeReference = {
-    icon = "📁",
-    title = "Code Reference",
+  info = {
+    title = "Info",
     style = "info",
-    color = "#0066cc"
+    latexcolor = "blue",
+    htmlcolor = "#0066cc"
   },
-  architecture = {
-    icon = "🏗️",
-    title = "System Architecture", 
+  code = {
+    title = "Code",
     style = "primary",
-    color = "#6f42c1"
+    latexcolor = "violet",
+    htmlcolor = "#6f42c1"
   },
-  narrative = {
-    icon = "📖",
-    title = "Narrative Context",
-    style = "secondary", 
-    color = "#6c757d"
-  },
-  implementation = {
-    icon = "⚡",
-    title = "Implementation Pattern",
+  success = {
+    title = "Success",
     style = "success",
-    color = "#28a745"
+    latexcolor = "green",
+    htmlcolor = "#28a745"
   },
-  crossReference = {
-    icon = "🔗",
-    title = "Related Components",
+  warning = {
+    title = "Warning",
     style = "warning",
-    color = "#ffc107"
+    latexcolor = "orange",
+    htmlcolor = "#ffc107"
+  },
+  error = {
+    title = "Error",
+    style = "danger",
+    latexcolor = "red",
+    htmlcolor = "#dc3545"
   }
 }
 
--- Helper function to detect callout type from content
-function detectCalloutType(content)
-  local text = pandoc.utils.stringify(content)
-  
-  if text:match("📁.*Code Reference") then
-    return "codeReference"
-  elseif text:match("🏗️.*System Architecture") then
-    return "architecture"
-  elseif text:match("📖.*Narrative Context") then
-    return "narrative"
-  elseif text:match("⚡.*Implementation Pattern") then
-    return "implementation"
-  elseif text:match("🔗.*Related Components") then
-    return "crossReference"
-  end
-  
-  return nil
-end
-
--- Extract title and content from callout
-function parseCallout(blockquote)
-  local content = {}
-  local title = ""
-  local link = ""
-  
-  -- Get the first paragraph which should contain the title
-  if blockquote.content[1] and blockquote.content[1].t == "Para" then
-    local firstPara = blockquote.content[1]
-    
-    -- Extract title from strong text
-    for i, inline in ipairs(firstPara.content) do
-      if inline.t == "Strong" then
-        local strongText = pandoc.utils.stringify(inline)
-        -- Extract title and link if present
-        local titleMatch = strongText:match("([^:]+):%s*%[(.-)%]%((.-)%)")
-        if titleMatch then
-          title = titleMatch
-          -- The link is in the next part
-        else
-          title = strongText:gsub("^[^:]+:%s*", "")
-        end
-        break
-      end
-    end
-    
-    -- Add remaining paragraphs as content
-    for i = 2, #blockquote.content do
-      table.insert(content, blockquote.content[i])
-    end
-  end
-  
-  return title, content
-end
-
--- Generate LaTeX callout box
-function generateLatexCallout(calloutType, title, content)
+-- Generate LaTeX callout box (no emojis)
+function generateLatexCallout(calloutType, content)
   local config = callouts[calloutType]
   if not config then
     return nil
@@ -102,13 +48,13 @@ function generateLatexCallout(calloutType, title, content)
 \begin{tcolorbox}[
   colback=%s!5!white,
   colframe=%s!75!black,
-  title={%s %s},
+  title={%s},
   breakable,
   enhanced,
   attach boxed title to top left={yshift=-2mm, xshift=2mm},
   boxed title style={size=small,colback=%s!75!black}
 ]
-]], config.color, config.color, config.icon, config.title, config.color)
+]], config.latexcolor, config.latexcolor, config.title, config.latexcolor)
   
   -- Add content
   for _, block in ipairs(content) do
@@ -120,8 +66,8 @@ function generateLatexCallout(calloutType, title, content)
   return pandoc.RawBlock("latex", latex)
 end
 
--- Generate HTML callout box
-function generateHtmlCallout(calloutType, title, content)
+-- Generate HTML callout box (no emojis)
+function generateHtmlCallout(calloutType, content)
   local config = callouts[calloutType]
   if not config then
     return nil
@@ -130,10 +76,10 @@ function generateHtmlCallout(calloutType, title, content)
   local html = string.format([[
 <div class="callout callout-%s" style="border-left: 4px solid %s; background-color: %s10; padding: 1rem; margin: 1rem 0;">
   <div class="callout-title" style="font-weight: bold; color: %s; margin-bottom: 0.5rem;">
-    <span class="callout-icon">%s</span> %s
+    %s
   </div>
   <div class="callout-content">
-]], config.style, config.color, config.color, config.color, config.icon, config.title)
+]], config.style, config.htmlcolor, config.htmlcolor, config.htmlcolor, config.title)
   
   -- Add content
   for _, block in ipairs(content) do
@@ -148,47 +94,35 @@ function generateHtmlCallout(calloutType, title, content)
   return pandoc.RawBlock("html", html)
 end
 
--- Main filter function
-function BlockQuote(elem)
-  -- Check if this is a callout blockquote
-  if not elem.content or #elem.content == 0 then
+-- Main filter function for Div elements (fenced divs like ::: info)
+function Div(elem)
+  -- Check if this is a callout div
+  if not elem.classes or #elem.classes == 0 then
     return elem
   end
   
-  local calloutType = detectCalloutType(elem.content)
-  if not calloutType then
-    return elem -- Not a callout, return unchanged
-  end
+  -- Get the callout type from the first class
+  local calloutType = elem.classes[1]
   
-  local title, content = parseCallout(elem)
+  -- Check if it's a recognized callout type
+  if not callouts[calloutType] then
+    return elem -- Not a recognized callout, return unchanged
+  end
   
   -- Generate appropriate output based on format
   if FORMAT:match "latex" then
-    return generateLatexCallout(calloutType, title, content)
+    return generateLatexCallout(calloutType, elem.content)
   elseif FORMAT:match "html" then
-    return generateHtmlCallout(calloutType, title, content)
+    return generateHtmlCallout(calloutType, elem.content)
   else
-    -- For other formats, return enhanced blockquote
-    local enhancedContent = {}
-    local config = callouts[calloutType]
-    
-    -- Add title as first paragraph
-    table.insert(enhancedContent, pandoc.Para({
-      pandoc.Strong({pandoc.Str(config.icon .. " " .. config.title .. ": " .. title)})
-    }))
-    
-    -- Add original content
-    for _, block in ipairs(content) do
-      table.insert(enhancedContent, block)
-    end
-    
-    return pandoc.BlockQuote(enhancedContent)
+    -- For other formats, return enhanced div
+    return elem
   end
 end
 
 -- Return the filter
 return {
   {
-    BlockQuote = BlockQuote
+    Div = Div
   }
 }

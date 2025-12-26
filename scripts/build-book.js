@@ -270,7 +270,7 @@ class BookBuilder {
     }
 
     // Handle appendices - add appendix marker and fix titles
-    const appendixMatch = fileName.match(/^app([A-D])\.md$/);
+    const appendixMatch = fileName.match(/^app([A-G])\.md$/);
     if (appendixMatch) {
       const appendixLetter = appendixMatch[1];
       const lines = content.split('\n');
@@ -340,7 +340,7 @@ class BookBuilder {
     }
 
     // Handle appendices (appA.md, appB.md, etc.)
-    const appendixMatch = fileName.match(/^app([A-D])\.md$/);
+    const appendixMatch = fileName.match(/^app([A-G])\.md$/);
     if (appendixMatch) {
       const appendixLetter = appendixMatch[1];
       imagePath = path.resolve(
@@ -551,7 +551,7 @@ class BookBuilder {
     }
 
     // Add chapters in order
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 9; i++) {
       const chapterFile = path.join(intermediateDir, `ch${i}.md`);
       if (await fs.pathExists(chapterFile)) {
         files.push(chapterFile);
@@ -565,7 +565,7 @@ class BookBuilder {
     }
 
     // Add appendices in order
-    for (const letter of ["A", "B", "C", "D"]) {
+    for (const letter of ["A", "B", "C", "D", "E", "F", "G"]) {
       const appendixFile = path.join(intermediateDir, `app${letter}.md`);
       if (await fs.pathExists(appendixFile)) {
         files.push(appendixFile);
