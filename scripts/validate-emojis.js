@@ -80,14 +80,25 @@ const excludePatterns = [
 
 function shouldProcessFile(filePath) {
   const relativePath = path.relative(process.cwd(), filePath);
-  
+
+  // CRITICAL: Explicitly exclude node_modules and other dependency directories
+  // This is a safety check in addition to glob's ignore pattern
+  if (relativePath.includes('node_modules') ||
+      relativePath.includes('/node_modules/') ||
+      relativePath.startsWith('node_modules/') ||
+      relativePath.includes('book-builder/node_modules') ||
+      relativePath.includes('book-backup/') ||
+      relativePath.includes('.git/')) {
+    return false;
+  }
+
   // Exclude narrative and development files
   for (const pattern of excludePatterns) {
     if (pattern.test(relativePath)) {
       return false;
     }
   }
-  
+
   // Only include book content files
   const fileName = path.basename(relativePath);
   for (const pattern of bookContentPatterns) {
@@ -95,7 +106,7 @@ function shouldProcessFile(filePath) {
       return true;
     }
   }
-  
+
   return false;
 }
 
@@ -123,15 +134,28 @@ function getLineAndColumn(text, index) {
 
 function validateEmojis() {
   console.log('🔍 Validating emoji usage in book content files...\n');
-  
-  // Find all markdown files
+
+  // Find all markdown files with comprehensive ignore patterns
+  // Multiple patterns to ensure node_modules is excluded regardless of location
   const markdownFiles = glob.sync('**/*.md', {
-    ignore: ['node_modules/**', 'build/**', '.git/**']
+    ignore: [
+      '**/node_modules/**',
+      'node_modules/**',
+      '**/book-builder/node_modules/**',
+      '**/book-backup/**',
+      'book-backup/**',
+      '**/build/**',
+      'build/**',
+      '**/.git/**',
+      '.git/**',
+      '**/dist/**',
+      'dist/**'
+    ]
   });
-  
-  // Filter to book content files
+
+  // Filter to book content files (with additional safety checks)
   const bookFiles = markdownFiles.filter(shouldProcessFile);
-  
+
   console.log(`Found ${bookFiles.length} book content files to validate:\n`);
   
   let hasErrors = false;
