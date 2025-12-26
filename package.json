@@ -1,7 +1,7 @@
 {
-  "name": "constellize-book-tools",
+  "name": "book-builder",
   "version": "1.0.0",
-  "description": "Book processing tools for The Constellize Method using Pandoc",
+  "description": "Reusable Pandoc + XeLaTeX build system for creating professional technical books in PDF, HTML, and EPUB formats",
   "main": "scripts/build-book.js",
   "scripts": {
     "build": "node scripts/build-book.js",
@@ -57,13 +57,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/constellize-book.git",
-    "directory": "tools"
+    "url": "https://github.com/satkinson/book-builder.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/constellize-book/issues"
+    "url": "https://github.com/satkinson/book-builder/issues"
   },
-  "homepage": "https://github.com/yourusername/constellize-book#readme",
+  "homepage": "https://github.com/satkinson/book-builder#readme",
   "config": {
     "pandoc": {
       "minVersion": "3.0.0"

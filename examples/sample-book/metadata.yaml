@@ -1,0 +1,14 @@
+---
+title: "Sample Technical Book"
+subtitle: "A demonstration of book-builder"
+author: "Your Name"
+date: "2024"
+version: "1.0"
+edition: "First Edition"
+isbn: ""
+isbn13: ""
+publisher: "Self-Published"
+abstract: |
+  This is a sample book demonstrating the book-builder system.
+  Replace this with your own content.
+---

@@ -1,15 +1,17 @@
-# Constellize Book Tools
+# Book Builder
 
-This directory contains the build tools and configuration for "The Constellize Method" book, which uses Pandoc to generate professional PDF/X-1a output with Atkinson Hyperlegible font.
+A reusable Pandoc + XeLaTeX build system for creating professional technical books in PDF, HTML, and EPUB formats.
 
 ## Features
 
+- **Multiple Output Formats**: PDF (print-ready), HTML (web), EPUB (e-readers)
 - **PDF/X-1a Compliance**: Professional print-ready output
-- **Atkinson Hyperlegible Font**: Excellent readability for technical content
-- **300 DPI Images**: High-quality print resolution
-- **Flexible Repository Links**: `{REPO_BASE}` placeholders work across formats
-- **Rich Callout System**: Custom callout boxes for code references, architecture notes, etc.
-- **Multiple Output Formats**: Web (HTML), PDF, EPUB, and development versions
+- **Atkinson Hyperlegible Font**: Excellent readability (~10MB fonts included)
+- **Syntax Highlighting**: Beautiful code blocks with language-specific styling
+- **Custom Callout System**: Note, warning, caution, info, and example boxes
+- **Flexible Configuration**: YAML-based metadata and settings
+- **Image Processing**: Automatic optimization and DPI handling
+- **Link Processing**: Smart repository and cross-reference handling
 
 ## Prerequisites
 
@@ -27,145 +29,194 @@ This directory contains the build tools and configuration for "The Constellize M
 
 3. **Node.js 16+**
    ```bash
-   # Already installed if you're using this system
-   node --version
+   brew install node
    ```
 
-### Required Fonts
+## Installation
 
-The Atkinson Hyperlegible font family is required for PDF generation:
+### As a Standalone Tool
 
 ```bash
-cd tools
-npm run fonts:install
+# Clone the repository
+git clone https://github.com/satkinson/book-builder.git
+cd book-builder
+
+# Install dependencies
+npm install
+
+# Verify setup
+npm run pandoc:test
 ```
 
-Or download manually from: https://brailleinstitute.org/freefont
+### As a Git Submodule (in your book project)
+
+```bash
+cd your-book-project
+git submodule add https://github.com/satkinson/book-builder.git book-builder
+git submodule update --init --recursive
+cd book-builder
+npm install
+```
 
 ## Quick Start
 
-1. **Install dependencies:**
-   ```bash
-   cd tools
-   npm install
-   ```
+### 1. Try the Example
 
-2. **Verify setup:**
-   ```bash
-   npm run setup
-   ```
+```bash
+# Build the sample book
+node scripts/build-book.js examples/sample-book --target pdf
+```
 
-3. **Build the book:**
-   ```bash
-   # Development version (fast, local links)
-   npm run build:development
-   
-   # PDF version (print-ready)
-   npm run build:pdf
-   
-   # Web version (GitHub links)
-   npm run build:web
-   
-   # All formats
-   npm run build:all
-   ```
+Output will be in `examples/sample-book/build/`.
+
+### 2. Create Your Own Book
+
+```bash
+# Copy the example as a template
+cp -r examples/sample-book my-book
+cd my-book
+
+# Edit metadata.yaml with your book information
+# Add your chapter files (chapter1.md, chapter2.md, etc.)
+
+# Build your book
+node ../scripts/build-book.js . --target pdf
+```
+
+## Usage
+
+### Building from Book-Builder Directory
+
+```bash
+# Build specific format
+node scripts/build-book.js /path/to/book-content --target pdf
+node scripts/build-book.js /path/to/book-content --target web
+node scripts/build-book.js /path/to/book-content --target epub
+
+# Build all formats
+node scripts/build-book.js /path/to/book-content --target all
+```
+
+### Building from Your Book Directory (with submodule)
+
+```bash
+# From your book directory
+node book-builder/scripts/build-book.js . --target pdf
+```
 
 ## Directory Structure
 
+### Book-Builder Structure
+
 ```
-tools/
+book-builder/
 ├── config/
-│   ├── book.config.js          # Main configuration
 │   └── pandoc-defaults.yaml    # Pandoc settings
 ├── scripts/
 │   ├── build-book.js           # Main build script
 │   ├── validate-links.js       # Link validation
 │   └── process-images.js       # Image processing
 ├── templates/
-│   ├── book.latex              # LaTeX template
-│   ├── metadata.yaml           # Book metadata
+│   ├── book-digital.latex      # PDF template (digital)
+│   ├── book-print.latex        # PDF template (print)
 │   └── filters/                # Pandoc Lua filters
 │       ├── callout-filter.lua  # Process callouts
 │       └── link-filter.lua     # Process repository links
-├── fonts/                      # Atkinson Hyperlegible fonts
-├── styles/                     # CSS and LaTeX styling
+├── fonts/                      # Atkinson Hyperlegible (~10MB)
+├── styles/                     # CSS and styling
+├── examples/
+│   └── sample-book/            # Example book project
 └── package.json               # Dependencies and scripts
 ```
 
-## Usage
+### Your Book Project Structure
 
-### Basic Commands
+```
+my-book/
+├── metadata.yaml              # Book metadata (required)
+├── chapter1.md                # Your chapters
+├── chapter2.md
+├── images/                    # Book images (optional)
+├── build/                     # Generated output (created automatically)
+└── book-builder/              # Submodule (if using)
+```
+
+## Book Metadata (metadata.yaml)
+
+Create a `metadata.yaml` file in your book directory:
+
+```yaml
+---
+title: "Your Book Title"
+subtitle: "Optional Subtitle"
+author: "Your Name"
+date: "2024"
+version: "1.0"
+edition: "First Edition"
+isbn: ""
+isbn13: ""
+publisher: "Your Publisher"
+abstract: |
+  A brief description of your book.
+---
+```
+
+## Markdown Features
+
+### Callouts
+
+Create special callout boxes:
+
+```markdown
+::: note
+This is a note callout with blue background.
+:::
+
+::: warning
+This is a warning callout with orange background.
+:::
+
+::: caution
+This is a caution callout with red background.
+:::
+
+::: info
+This is an info callout with green background.
+:::
+
+::: example
+This is an example callout with purple background.
+:::
+```
+
+### Code Blocks
+
+```markdown
+\```javascript
+function hello(name) {
+  console.log(`Hello, ${name}!`);
+}
+\```
+```
+
+### Links and References
+
+```markdown
+See [Chapter 2](#chapter-2) for more details.
+Check out the [documentation](https://example.com).
+```
+
+## Available npm Scripts
 
 ```bash
-# Build development version
-npm run build
-
-# Build specific format
-npm run build:pdf
-npm run build:web
-npm run build:epub
-
-# Validate links
-npm run validate
-
-# Clean build directory
-npm run clean
-
-# Watch for changes (development)
-npm run watch
+# From book-builder directory
+npm run build:pdf        # Build PDF
+npm run build:web        # Build HTML
+npm run build:epub       # Build EPUB
+npm run build:all        # Build all formats
+npm run clean            # Clean build outputs
+npm run pandoc:test      # Verify Pandoc and XeLaTeX installed
 ```
-
-### Repository Links
-
-Use `{REPO_BASE}` placeholders in your markdown:
-
-```markdown
-See the [Prompt Domain Model]({REPO_BASE}/codepromptu/src/shared/src/main/java/com/codepromptu/shared/domain/Prompt.java) for implementation details.
-```
-
-The build system will replace `{REPO_BASE}` with the appropriate URL for each output format:
-- **Development**: `file:///path/to/local/repo`
-- **Web/PDF**: `https://github.com/username/repo/blob/main`
-
-### Callout System
-
-Create rich callout boxes using blockquote syntax:
-
-```markdown
-> ** Code Reference: [Prompt Controller]({REPO_BASE}/codepromptu/src/api/src/main/java/com/codepromptu/api/controller/PromptController.java)**
-> 
-> The PromptController demonstrates RESTful API design with proper error handling and validation. Notice how it delegates business logic to the service layer while maintaining clean separation of concerns.
-```
-
-Available callout types:
-- ` Code Reference` - Links to specific code files
-- `️ System Architecture` - Architectural diagrams and explanations  
-- ` Narrative Context` - Links to narrative/process documentation
-- `⚡ Implementation Pattern` - Design patterns and best practices
-- ` Related Components` - Cross-references to related code
-
-## Configuration
-
-### Book Configuration (`config/book.config.js`)
-
-Main configuration file containing:
-- Book metadata (title, author, etc.)
-- Repository settings
-- Output format configurations
-- Font settings
-- Callout definitions
-
-### Pandoc Configuration (`config/pandoc-defaults.yaml`)
-
-Pandoc-specific settings:
-- PDF/X-1a compliance settings
-- Font configuration
-- LaTeX packages
-- Output options
-
-### Environment Variables
-
-- `REPO_BASE_URL`: Override the default repository base URL
 
 ## Output Formats
 
@@ -174,89 +225,94 @@ Pandoc-specific settings:
 - 300 DPI images
 - Atkinson Hyperlegible font
 - Professional typography
-- Clickable links with footnotes
+- Print-optimized
 
-### Web (HTML)
+### HTML (Web)
 - Responsive design
 - Syntax highlighting
-- Interactive callouts
-- External links open in new tabs
+- Interactive navigation
+- Web-optimized
 
-### Development
-- Fast build times
-- Local file links
-- Simplified styling
-- Live reload support
-
-### EPUB
+### EPUB (E-Readers)
 - E-reader compatible
 - Reflowable text
 - Embedded fonts
 - Chapter navigation
 
+## Customization
+
+### Fonts
+
+The Atkinson Hyperlegible font family is included (~10MB) in the `fonts/` directory. To use different fonts:
+
+1. Add font files to `fonts/` directory
+2. Update `templates/book-digital.latex` and `templates/book-print.latex`
+3. Update font references in the templates
+
+### Templates
+
+- **PDF Template**: `templates/book-digital.latex` (digital) or `templates/book-print.latex` (print)
+- **CSS**: `styles/book.css` (HTML output)
+- **Filters**: `templates/filters/` (custom Pandoc processing)
+
+### Callout Styles
+
+Edit `templates/filters/callout-filter.lua` to customize callout appearance and behavior.
+
 ## Troubleshooting
 
 ### Common Issues
 
-1. **"Pandoc not found"**
-   ```bash
-   brew install pandoc
-   pandoc --version
-   ```
-
-2. **"XeLaTeX not found"**
-   ```bash
-   brew install --cask mactex
-   # Restart terminal
-   xelatex --version
-   ```
-
-3. **"Font not found"**
-   ```bash
-   npm run fonts:install
-   npm run fonts:check
-   ```
-
-4. **Build fails with LaTeX errors**
-   ```bash
-   # Try verbose mode to see detailed errors
-   npm run build:pdf -- --verbose
-   ```
-
-### Getting Help
-
-- Check the build logs for specific error messages
-- Verify all prerequisites are installed
-- Ensure fonts are properly installed
-- Try building a single chapter first
-
-## Development
-
-### Adding New Scripts
-
-1. Create script in `scripts/` directory
-2. Add to `package.json` scripts section
-3. Follow existing patterns for error handling and logging
-
-### Modifying Templates
-
-- **LaTeX template**: `templates/book.latex`
-- **Metadata**: `templates/metadata.yaml`
-- **Filters**: `templates/filters/`
-
-### Testing Changes
-
+**"Pandoc not found"**
 ```bash
-# Test with a single chapter
-npm run build:development -- --chapter ch1.md
-
-# Validate output
-npm run validate
-
-# Check fonts
-npm run fonts:check
+brew install pandoc
+pandoc --version  # Should be 3.0+
 ```
+
+**"XeLaTeX not found"**
+```bash
+brew install --cask mactex
+# Restart terminal
+xelatex --version
+```
+
+**"Font not found"**
+- Fonts are included in the `fonts/` directory
+- Verify fonts exist: `ls fonts/`
+
+**Build fails with errors**
+```bash
+# Run with verbose output
+node scripts/build-book.js /path/to/book --target pdf --verbose
+```
+
+## Examples
+
+See `examples/sample-book/` for a complete working example.
 
 ## License
 
-MIT License - see the main project LICENSE file.
+MIT License - see LICENSE file for details.
+
+## Contributing
+
+Contributions welcome! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request
+
+## Credits
+
+- Built with [Pandoc](https://pandoc.org/)
+- Uses [Atkinson Hyperlegible](https://brailleinstitute.org/freefont) font from the Braille Institute
+- LaTeX typesetting via [XeLaTeX](https://www.latex-project.org/)
+
+## Support
+
+For issues, questions, or contributions:
+- GitHub Issues: https://github.com/satkinson/book-builder/issues
+- Documentation: https://github.com/satkinson/book-builder
+
+---
+
+**Created by Steve Atkinson** • Originally developed for "The Constellize Method" book
