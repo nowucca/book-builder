@@ -51,8 +51,8 @@ license: "All rights reserved. No part of this publication may be reproduced, di
 # ISBN and publishing details
 isbn: ""  # To be filled when available
 isbn13: ""  # To be filled when available
-edition: "First Edition"
-version: "2025.10"
+edition: "Author Preview 2025.12"
+version: "2025.12"
 
 # Technical metadata
 format: "PDF/X-1a"
