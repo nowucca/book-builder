@@ -37,49 +37,51 @@ local callouts = {
   }
 }
 
--- Generate LaTeX callout box (no emojis)
+-- Generate LaTeX callout box (no emojis) - HTML-style with rounded corners and embedded title
 function generateLatexCallout(calloutType, content)
   local config = callouts[calloutType]
   if not config then
     return nil
   end
-  
-  -- Left-bar style for digital PDF (modern, more width)
+
+  -- Modern style with rounded corners and embedded title like HTML version
   -- Code callouts: 0.5em left/right, others: 1em all around
-  -- All callouts: 1em top/bottom
   local extraOptions = ""
   if calloutType == "code" then
-    extraOptions = ",\n  left=0.5em,\n  right=0.5em,\n  top=1em,\n  bottom=1em"
+    extraOptions = ",\n  left=0.5em,\n  right=0.5em,\n  top=0.5em,\n  bottom=0.5em"
   else
-    extraOptions = ",\n  left=1em,\n  right=1em,\n  top=1em,\n  bottom=1em"
+    extraOptions = ",\n  left=1em,\n  right=1em,\n  top=0.5em,\n  bottom=0.5em"
   end
 
-  -- Use overlay to draw left bar starting below the attached title
+  -- Rounded box with rounded left bar and embedded title (HTML-style)
   local latex = string.format([[
 \begin{tcolorbox}[
   colback=%s!5!white,
   frame hidden,
-  title={%s},
+  title={\textcolor{%s!75!black}{\textbf{%s}}},
+  coltitle=black,
+  fonttitle=\small,
   breakable,
   enhanced,
-  attach boxed title to top left={yshift=-2mm, xshift=6pt},
-  boxed title style={size=small,colback=%s!75!black,halign=left},
-  toptitle=1mm,
-  bottomtitle=1mm,
+  rounded corners,
+  arc=3pt,
+  boxrule=0pt,
   overlay={
-    \draw[line width=4pt,%s!75!black]
-      ([xshift=2pt,yshift=-8mm]frame.north west) -- ([xshift=2pt]frame.south west);
-  }%s
+    \fill[%s!75!black,rounded corners=2pt]
+      ([xshift=2pt,yshift=-2pt]frame.north west) rectangle ([xshift=6pt,yshift=2pt]frame.south west);
+  },
+  toptitle=0.3em,
+  bottomtitle=0.3em%s
 ]
-]], config.latexcolor, config.title, config.latexcolor, config.latexcolor, extraOptions)
-  
+]], config.latexcolor, config.latexcolor, config.title, config.latexcolor, extraOptions)
+
   -- Add content
   for _, block in ipairs(content) do
     latex = latex .. pandoc.write(pandoc.Pandoc({block}), "latex") .. "\n"
   end
-  
+
   latex = latex .. "\\end{tcolorbox}"
-  
+
   return pandoc.RawBlock("latex", latex)
 end
 
