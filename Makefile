@@ -2,6 +2,8 @@
 # Reusable book publishing system
 
 SHELL := /bin/zsh
+PATH := /Library/TeX/texbin:$(PATH)
+export PATH
 
 # Directories
 SCRIPTS_DIR := scripts
