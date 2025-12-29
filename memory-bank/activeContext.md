@@ -8,7 +8,20 @@
 
 ## Current Focus
 
-### Recent Completion: Minted Integration & Python Dependency Management ✅
+### Recent Completion: Digital/Print Callout Styling Variants ✅
+
+**What Was Completed** (December 28, 2024 Evening):
+- ✅ Created separate callout filters for digital and print formats
+- ✅ Digital: left-bar style (`frame hidden` + `borderline west`) for modern look
+- ✅ Print: complete box style (`colframe`) for traditional publishing
+- ✅ Created `pandoc-defaults-digital.yaml` and `pandoc-defaults-print.yaml`
+- ✅ Updated `book.config.js` to specify `defaultsFile` per output target
+- ✅ Updated `build-book.js` to use target-specific defaults file
+- ✅ Digital optimizations: reduced margins (code=0.5em/0em, others=1em/0em)
+- ✅ Both formats tested and working correctly
+- ✅ Committed changes (a96c0a3)
+
+### Earlier: Minted Integration & Python Dependency Management ✅
 
 **What Was Completed** (December 28, 2024):
 - ✅ Added Python dependency management via uv package manager
@@ -21,6 +34,7 @@
 - ✅ Updated Makefile with Python verification and installation targets
 - ✅ Configured code callouts with reduced horizontal margins (0.5em)
 - ✅ Tested and validated: Lines break automatically with ↪ continuation indicator
+- ✅ Committed changes (d53befe)
 
 **Previous Work** (December 28, 2024):
 - ✅ Fixed all path references for submodule structure (book-builder/ instead of tools/)
@@ -65,7 +79,34 @@
 
 **Result**: Professional code rendering with automatic wrapping
 
-### Decision 2: Node Modules Exclusion Strategy
+### Decision 2: Digital vs Print Callout Styling
+**Date**: December 28, 2024
+**Context**: User wanted modern left-bar callouts for digital PDF but traditional complete boxes for print
+
+**Decision**: Separate callout filters for digital and print formats
+
+**Alternatives Considered**:
+- Single style for both: User specifically wanted different styles
+- New dialect (digital/modern, digital/traditional): Overcomplicating, just optimize existing formats
+- Manual switching: Too error-prone, config-driven is better
+
+**Implementation**:
+- Created `callout-filter-digital.lua` with left-bar style (`frame hidden` + `borderline west`)
+- Created `callout-filter-print.lua` with complete box style (`colframe`)
+- Created separate Pandoc defaults files: `pandoc-defaults-digital.yaml` and `pandoc-defaults-print.yaml`
+- Updated `book.config.js` to specify `defaultsFile` per output target
+- Updated `build-book.js` to use target-specific defaults when specified
+- Digital gets reduced margins for more content width
+
+**Rationale**:
+- Digital PDFs benefit from modern, space-efficient design
+- Print PDFs benefit from traditional, clearly-defined boxes
+- Same config system supports both without code duplication
+- Users can choose which format to build independently
+
+**Result**: Clean separation, both builds working, modern digital look with traditional print reliability
+
+### Decision 3: Node Modules Exclusion Strategy
 **Date**: December 25, 2024
 **Context**: Emoji validation was scanning node_modules causing false positives
 

@@ -1,6 +1,6 @@
 # Progress: Book-Builder
 
-**Last Updated**: December 25, 2024
+**Last Updated**: December 28, 2024
 **Current Version**: 1.0.0
 **Status**: Production Ready
 
@@ -53,6 +53,18 @@
 - ✅ Updated pandoc-defaults.yaml to use minted-filter
 - ✅ Tested: Automatic line breaking with ↪ continuation indicators
 - ✅ Result: Professional syntax highlighting with automatic wrapping
+
+### Digital/Print Callout Styling Split (December 28, 2024 Evening) ✅
+- ✅ Created callout-filter-digital.lua with left-bar style
+- ✅ Created callout-filter-print.lua with complete box style
+- ✅ Created pandoc-defaults-digital.yaml
+- ✅ Created pandoc-defaults-print.yaml
+- ✅ Updated book.config.js to specify defaultsFile per target
+- ✅ Updated build-book.js to use target-specific defaults file
+- ✅ Digital: frame hidden + borderline west (modern, more width)
+- ✅ Print: colframe (traditional complete boxes)
+- ✅ Both builds tested and working correctly
+- ✅ Result: Clean separation, modern digital with traditional print
 
 ---
 
