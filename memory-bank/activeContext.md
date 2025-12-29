@@ -1,6 +1,6 @@
 # Active Context: Book-Builder
 
-**Last Updated**: December 25, 2024
+**Last Updated**: December 28, 2024
 **Current Version**: 1.0.0
 **Status**: Production Ready
 
@@ -8,23 +8,25 @@
 
 ## Current Focus
 
-### Recent Completion: Emoji Validation Enhancement ✅
+### Recent Completion: Phase 4 Build System Validation ✅
 
-**What Was Completed** (December 25, 2024):
-- ✅ Enhanced validate-emojis.js to exclude node_modules
-- ✅ Added comprehensive glob ignore patterns
-- ✅ Added explicit path checking in shouldProcessFile()
-- ✅ Committed and pushed to GitHub (commit d447dd4)
-- ✅ Validated fix: 23 files checked, 0 violations
-- ✅ Created memory bank documentation
+**What Was Completed** (December 28, 2024):
+- ✅ Fixed all path references for submodule structure (book-builder/ instead of tools/)
+- ✅ Added 29 TTF fonts from book-backup for XeLaTeX compatibility
+- ✅ Updated LaTeX templates with correct font paths
+- ✅ Fixed build-book.js path resolution using __dirname
+- ✅ Updated book.config.js, pandoc-defaults.yaml with correct paths
+- ✅ Updated metadata.yaml with correct appendices and online resources
+- ✅ All build formats tested and working (PDF 24MB, HTML 330KB, EPUB 108KB)
+- ✅ External references verified (constellize.com/book/metrics)
 
 **Previous Work**:
+- ✅ Emoji validation enhancement (December 25, 2024)
 - ✅ Extracted from Constellize Book project with full git history
 - ✅ Set up as standalone repository
 - ✅ Configured as git submodule in book project
-- ✅ All build formats working (PDF, HTML, EPUB)
 
-**Status**: Active and stable, ready for use in multiple projects
+**Status**: Fully validated and production-ready for book project
 
 ---
 
@@ -50,24 +52,85 @@
 
 **Result**: Validation correctly processes 23 book files, 0 violations
 
+### Decision 2: Submodule Path Resolution Strategy
+**Date**: December 28, 2024
+**Context**: After repo separation, hardcoded "tools/" paths broke builds
+
+**Decision**: Use __dirname-based path resolution in build scripts
+
+**Implementation**:
+- Changed `toolsDir = path.resolve(rootDir, "tools")`
+- To: `toolsDir = path.resolve(__dirname, "..")`
+- Updated all config files to use "book-builder/" prefix
+- LaTeX templates use relative paths: `./book-builder/fonts/`
+
+**Rationale**:
+- Makes book-builder work from any location
+- Doesn't depend on parent directory structure
+- Enables true standalone usage as submodule
+- Scripts always find their own resources
+
+**Result**: All builds working correctly from submodule location
+
+### Decision 3: Font Format Requirements
+**Date**: December 28, 2024
+**Context**: XeLaTeX requires TTF/OTF fonts, WOFF2 doesn't work
+
+**Decision**: Include all TTF fonts, gitignore only >100MB files
+
+**Implementation**:
+- Copied 29 TTF fonts from book-backup (48-68K each)
+- Included NotoColorEmoji.ttf (9.7M)
+- Gitignored AppleColorEmoji.ttf (180M)
+- LaTeX templates reference TTF files directly
+
+**Rationale**:
+- XeLaTeX fontspec package requires TTF/OTF format
+- WOFF2 only for web, not usable for PDF generation
+- Small fonts (<10M) acceptable in repo for self-containment
+- Very large fonts (>100M) excluded via gitignore
+
+**Result**: PDF builds successfully with all required fonts
+
+### Decision 4: Metadata Consistency
+**Date**: December 28, 2024
+**Context**: metadata.yaml had old appendix names after Phase 3 cleanup
+
+**Decision**: Update metadata to reflect actual book structure
+
+**Implementation**:
+- Changed appendices to: "Constellize Method Summary", "A Manifesto for Constellize"
+- Added online_resources section with 5 website URLs
+- Removed references to deleted appendices (A, D, E, F, G)
+
+**Rationale**:
+- Metadata should accurately describe book contents
+- Online resources documented for reference
+- Consistency between code and metadata prevents confusion
+
+**Result**: Metadata matches actual book structure
+
 ---
 
 ## Next Steps
 
 ### Immediate (Complete)
-- ✅ Emoji validation fixed
-- ✅ Memory bank created
-- ✅ Changes committed to git
+- ✅ Emoji validation fixed (Dec 25)
+- ✅ Memory bank created (Dec 25)
+- ✅ Phase 4 build validation complete (Dec 28)
+- ✅ All path issues resolved (Dec 28)
+- ✅ Fonts added and working (Dec 28)
 
 ### Short Term
+- Ready for Phase 5: Memory Banks (create for all repos)
+- Ready for book project Phase 6: Website Deployment
 - Monitor usage in Constellize Book project
 - Gather feedback on build performance
-- Document any edge cases or issues
 
 ### Medium Term
 - Consider additional validation tools
 - Explore template improvements
-- Evaluate user feedback from other projects
+- Version 1.1 planning with enhanced features
 
 ---
 
@@ -113,6 +176,20 @@
 **Trade-off**: Larger repo size acceptable for convenience
 **Application**: Self-contained trumps minimal repo size
 
+### Learning 4: XeLaTeX Font Format Requirements
+**Discovered**: December 28, 2024
+**Issue**: XeLaTeX requires TTF/OTF fonts, not WOFF2
+**Solution**: Include TTF fonts in repo, gitignore only >100MB files
+**Application**: Font format matters - web fonts (WOFF2) don't work for PDF
+**Insight**: Self-contained with proper formats better than minimal repo
+
+### Learning 5: Submodule Independence Requires Dynamic Paths
+**Discovered**: December 28, 2024
+**Issue**: Hardcoded "tools/" paths broke after submodule extraction
+**Solution**: Use __dirname for path resolution relative to script location
+**Application**: Scripts should find resources relative to themselves
+**Insight**: True reusability requires eliminating assumptions about parent structure
+
 ---
 
 ## Current State
@@ -121,13 +198,17 @@
 - **Location**: https://github.com/nowucca/book-builder
 - **Branch**: main
 - **Status**: Clean, all changes committed
-- **Latest Commit**: d447dd4 (emoji validation fix)
+- **Latest Commits**:
+  - f6886c8 (metadata.yaml update)
+  - 73be206 (font path fixes)
+  - Multiple commits for Phase 4 fixes
 
 ### Build System
-- **PDF**: Working (digital and print)
-- **HTML**: Working
-- **EPUB**: Working
+- **PDF**: Working (24MB digital output tested)
+- **HTML**: Working (330KB output tested)
+- **EPUB**: Working (108KB output tested)
 - **Validation**: All tools working correctly
+- **Fonts**: 29 TTF fonts included and working
 
 ### Dependencies
 - **Pandoc**: 3.0+ required
