@@ -11,7 +11,7 @@ pdf-engine-opts:
   - "-file-line-error"
 
 # Template and Styling
-template: tools/templates/book.latex
+template: book-builder/templates/book.latex
 
 
 
@@ -30,12 +30,12 @@ citeproc: true
 
 # Filters (processed in order)
 filters:
-  - tools/templates/filters/callout-filter.lua
-  - tools/templates/filters/link-filter.lua
+  - book-builder/templates/filters/callout-filter.lua
+  - book-builder/templates/filters/link-filter.lua
 
 # Metadata
 metadata-files:
-  - tools/templates/metadata.yaml
+  - book-builder/templates/metadata.yaml
 
 
 # Variables for template
