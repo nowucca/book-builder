@@ -74,12 +74,12 @@ function generateLatexCallout(calloutType, content)
   left=8pt,
   overlay={
     \fill[%s!75!black]
-      ([xshift=3pt,yshift=0pt]frame.north west)
+      ([xshift=3pt]frame.north west)
       arc[start angle=90, end angle=180, radius=3pt]
-      -- ([xshift=0pt,yshift=3pt]frame.south west)
+      -- ([yshift=3pt]frame.south west)
       arc[start angle=180, end angle=270, radius=3pt]
-      -- ([xshift=4pt,yshift=-3pt]frame.south west)
-      -- ([xshift=4pt,yshift=-3pt]frame.north west)
+      -- ([xshift=4pt]frame.south west)
+      -- ([xshift=4pt]frame.north west)
       -- cycle;
   }%s
 ]
