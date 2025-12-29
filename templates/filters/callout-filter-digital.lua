@@ -55,7 +55,7 @@ function generateLatexCallout(calloutType, content)
     contentMargins = ",\n  left=1em,\n  right=1em,\n  top=0.5em,\n  bottom=0.5em"
   end
 
-  -- Clean box with rounded corners and rounded left bar (HTML-style)
+  -- Clean box with rounded corners and straight left bar covering title
   local latex = string.format([[
 \begin{tcolorbox}[
   colback=%s!5!white,
@@ -72,10 +72,7 @@ function generateLatexCallout(calloutType, content)
   toptitle=0.3em,
   bottomtitle=0.3em,
   left=8pt,
-  overlay={
-    \fill[%s!75!black,rounded corners=3pt]
-      ([xshift=0pt]interior.north west) rectangle ([xshift=4pt]interior.south west);
-  }%s
+  borderline west={4pt}{0pt}{%s!75!black}%s
 ]
 ]], config.latexcolor, config.latexcolor, config.title, config.latexcolor, contentMargins)
 
