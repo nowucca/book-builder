@@ -55,12 +55,12 @@ function generateLatexCallout(calloutType, content)
     contentMargins = ",\n  left=1em,\n  right=1em,\n  top=0.5em,\n  bottom=0.5em"
   end
 
-  -- Clean box with colored title bar and straight left bar
+  -- Clean box with matching backgrounds and bold black title
   local latex = string.format([[
 \begin{tcolorbox}[
   colback=%s!5!white,
-  colbacktitle=%s!75!black,
-  coltitle=white,
+  colbacktitle=%s!5!white,
+  coltitle=black,
   title={\textbf{%s}},
   fonttitle=\small,
   frame hidden,
