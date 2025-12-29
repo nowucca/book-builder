@@ -18,9 +18,9 @@
 % Font setup
 \usepackage{fontspec}
 
-% Atkinson Hyperlegible fonts with absolute paths
+% Atkinson Hyperlegible fonts from book-builder submodule
 \setmainfont{AtkinsonHyperlegibleNext-Regular.ttf}[
-  Path = \string~/Work/constellize/book/tools/fonts/,
+  Path = ./book-builder/fonts/,
   BoldFont = AtkinsonHyperlegibleNext-Bold.ttf,
   ItalicFont = AtkinsonHyperlegibleNext-RegularItalic.ttf,
   BoldItalicFont = AtkinsonHyperlegibleNext-BoldItalic.ttf,
@@ -28,7 +28,7 @@
 ]
 
 \setsansfont{AtkinsonHyperlegibleNext-Regular.ttf}[
-  Path = \string~/Work/constellize/book/tools/fonts/,
+  Path = ./book-builder/fonts/,
   BoldFont = AtkinsonHyperlegibleNext-Bold.ttf,
   ItalicFont = AtkinsonHyperlegibleNext-RegularItalic.ttf,
   BoldItalicFont = AtkinsonHyperlegibleNext-BoldItalic.ttf,
@@ -36,7 +36,7 @@
 ]
 
 \setmonofont{AtkinsonHyperlegibleMono-Regular.ttf}[
-  Path = \string~/Work/constellize/book/tools/fonts/,
+  Path = ./book-builder/fonts/,
   BoldFont = AtkinsonHyperlegibleMono-Bold.ttf,
   ItalicFont = AtkinsonHyperlegibleMono-RegularItalic.ttf,
   BoldItalicFont = AtkinsonHyperlegibleMono-BoldItalic.ttf,
