@@ -55,7 +55,7 @@ function generateLatexCallout(calloutType, content)
     contentMargins = ",\n  left=1em,\n  right=1em,\n  top=0.5em,\n  bottom=0.5em"
   end
 
-  -- Clean box with rounded corners and straight left bar covering title
+  -- Clean box with rounded corners and curved left bar matching box corners
   local latex = string.format([[
 \begin{tcolorbox}[
   colback=%s!5!white,
@@ -72,7 +72,16 @@ function generateLatexCallout(calloutType, content)
   toptitle=0.3em,
   bottomtitle=0.3em,
   left=8pt,
-  borderline west={4pt}{0pt}{%s!75!black}%s
+  overlay={
+    \fill[%s!75!black]
+      ([xshift=3pt]interior.north west)
+      arc[start angle=90, end angle=180, radius=3pt]
+      -- ([yshift=3pt]interior.south west)
+      arc[start angle=180, end angle=270, radius=3pt]
+      -- ([xshift=4pt,yshift=-3pt]interior.south west)
+      -- ([xshift=4pt,yshift=3pt]interior.north west)
+      -- cycle;
+  }%s
 ]
 ]], config.latexcolor, config.latexcolor, config.title, config.latexcolor, contentMargins)
 
