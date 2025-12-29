@@ -39,6 +39,21 @@
 - ✅ Verified external references (constellize.com URLs)
 - ✅ All Phase 4 validation complete
 
+### Minted Integration & Python Dependencies (December 28, 2024 Evening) ✅
+- ✅ Created pyproject.toml for Python dependency management
+- ✅ Integrated uv package manager for fast, isolated Python environment
+- ✅ Installed Pygments 2.19.2 in .venv (gitignored)
+- ✅ Created minted-filter.lua to convert code blocks to Minted environments
+- ✅ Updated book-digital.latex with Minted configuration
+- ✅ Updated book-print.latex with Minted configuration
+- ✅ Modified build-book.js to pass --shell-escape to XeLaTeX
+- ✅ Extended PATH to include .venv/bin for Pygments access
+- ✅ Updated Makefile with check-python and install-python targets
+- ✅ Modified callout-filter.lua: reduced horizontal margins for code callouts
+- ✅ Updated pandoc-defaults.yaml to use minted-filter
+- ✅ Tested: Automatic line breaking with ↪ continuation indicators
+- ✅ Result: Professional syntax highlighting with automatic wrapping
+
 ---
 
 ## Current Status

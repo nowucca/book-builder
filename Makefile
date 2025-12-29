@@ -14,7 +14,7 @@ CONFIG_DIR := config
 # Node dependencies
 NODE_MODULES := node_modules
 
-.PHONY: all help verify build clean install test
+.PHONY: all help verify build clean install test install-python
 
 # Default target
 all: verify
@@ -23,13 +23,14 @@ all: verify
 help:
 	@echo "Book-Builder - Available targets:"
 	@echo ""
-	@echo "  make verify    - Verify prerequisites and setup"
-	@echo "  make install   - Install npm dependencies"
-	@echo "  make test      - Run validation tests"
-	@echo "  make clean     - Clean build artifacts"
+	@echo "  make verify         - Verify prerequisites and setup"
+	@echo "  make install        - Install npm dependencies"
+	@echo "  make install-python - Install Python dependencies with uv"
+	@echo "  make test           - Run validation tests"
+	@echo "  make clean          - Clean build artifacts"
 
 # Verify prerequisites
-verify: check-pandoc check-xelatex check-node check-fonts check-npm-deps
+verify: check-pandoc check-xelatex check-node check-fonts check-npm-deps check-python
 	@echo "✅ All prerequisites verified!"
 
 check-pandoc:
@@ -67,11 +68,29 @@ check-npm-deps:
 		echo "⚠️  Not installed - run 'make install'"; \
 	fi
 
+check-python:
+	@echo -n "Checking Python (uv)... "
+	@which uv > /dev/null 2>&1 || (echo "❌ FAILED"; echo "Install: brew install uv"; exit 1)
+	@uv --version | head -1
+	@echo "✅ uv found"
+	@echo -n "Checking Pygments... "
+	@if uv run pygmentize -V > /dev/null 2>&1; then \
+		uv run pygmentize -V; \
+		echo "✅ Pygments found"; \
+	else \
+		echo "⚠️  Not installed - run 'make install-python'"; \
+	fi
+
 # Install dependencies
 install:
 	@echo "📦 Installing npm dependencies..."
 	npm install
 	@echo "✅ Dependencies installed!"
+
+install-python:
+	@echo "📦 Installing Python dependencies with uv..."
+	uv sync
+	@echo "✅ Python dependencies installed!"
 
 # Run validation tests
 test: verify

@@ -44,6 +44,12 @@ function generateLatexCallout(calloutType, content)
     return nil
   end
   
+  -- Special formatting for code callouts only (reduced horizontal margins)
+  local extraOptions = ""
+  if calloutType == "code" then
+    extraOptions = ",\n  left=0.5em,\n  right=0.5em"
+  end
+
   local latex = string.format([[
 \begin{tcolorbox}[
   colback=%s!5!white,
@@ -52,9 +58,9 @@ function generateLatexCallout(calloutType, content)
   breakable,
   enhanced,
   attach boxed title to top left={yshift=-2mm, xshift=2mm},
-  boxed title style={size=small,colback=%s!75!black}
+  boxed title style={size=small,colback=%s!75!black}%s
 ]
-]], config.latexcolor, config.latexcolor, config.title, config.latexcolor)
+]], config.latexcolor, config.latexcolor, config.title, config.latexcolor, extraOptions)
   
   -- Add content
   for _, block in ipairs(content) do

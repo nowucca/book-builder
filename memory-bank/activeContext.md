@@ -8,31 +8,64 @@
 
 ## Current Focus
 
-### Recent Completion: Phase 4 Build System Validation ✅
+### Recent Completion: Minted Integration & Python Dependency Management ✅
 
 **What Was Completed** (December 28, 2024):
+- ✅ Added Python dependency management via uv package manager
+- ✅ Created pyproject.toml with Pygments dependency
+- ✅ Integrated Minted package for syntax highlighting with automatic line breaking
+- ✅ Created minted-filter.lua to convert code blocks to Minted environments
+- ✅ Updated LaTeX templates to use Minted with breaklines configuration
+- ✅ Modified build script to pass --shell-escape to XeLaTeX
+- ✅ Extended PATH to include .venv/bin for Pygments access
+- ✅ Updated Makefile with Python verification and installation targets
+- ✅ Configured code callouts with reduced horizontal margins (0.5em)
+- ✅ Tested and validated: Lines break automatically with ↪ continuation indicator
+
+**Previous Work** (December 28, 2024):
 - ✅ Fixed all path references for submodule structure (book-builder/ instead of tools/)
 - ✅ Added 29 TTF fonts from book-backup for XeLaTeX compatibility
 - ✅ Updated LaTeX templates with correct font paths
 - ✅ Fixed build-book.js path resolution using __dirname
 - ✅ Updated book.config.js, pandoc-defaults.yaml with correct paths
 - ✅ Updated metadata.yaml with correct appendices and online resources
-- ✅ All build formats tested and working (PDF 24MB, HTML 330KB, EPUB 108KB)
+- ✅ All build formats tested and working
 - ✅ External references verified (constellize.com/book/metrics)
-
-**Previous Work**:
 - ✅ Emoji validation enhancement (December 25, 2024)
-- ✅ Extracted from Constellize Book project with full git history
-- ✅ Set up as standalone repository
-- ✅ Configured as git submodule in book project
 
-**Status**: Fully validated and production-ready for book project
+**Status**: Production-ready with complete syntax highlighting and line breaking solution
 
 ---
 
 ## Recent Decisions
 
-### Decision 1: Node Modules Exclusion Strategy
+### Decision 1: Minted + UV for Syntax Highlighting
+**Date**: December 28, 2024
+**Context**: Code blocks in callouts were overflowing margins, needed line breaking with syntax highlighting
+
+**Decision**: Use Minted package with Python/Pygments, managed via uv
+
+**Alternatives Considered**:
+- Listings package: Supports breaklines but inferior syntax highlighting
+- Manual line breaks: Too much maintenance burden
+- Smaller fonts only: Insufficient for longest lines
+
+**Implementation**:
+- Python dependencies isolated to book-builder/.venv via uv
+- Custom Lua filter (minted-filter.lua) converts code blocks to Minted
+- LaTeX templates configured with breaklines, hook arrow continuation
+- Build script passes --shell-escape and extends PATH to .venv/bin
+- Code callouts get reduced horizontal margins (0.5em) for more space
+
+**Rationale**:
+- Minted provides best-in-class syntax highlighting via Pygments
+- Automatic line breaking with customizable continuation indicators
+- UV keeps Python ecosystem isolated and fast
+- Reusable pattern for future book projects
+
+**Result**: Professional code rendering with automatic wrapping
+
+### Decision 2: Node Modules Exclusion Strategy
 **Date**: December 25, 2024
 **Context**: Emoji validation was scanning node_modules causing false positives
 

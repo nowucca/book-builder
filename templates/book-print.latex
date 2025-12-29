@@ -113,16 +113,20 @@ $endif$
 % Define pandocbounded command for newer Pandoc versions
 \providecommand{\pandocbounded}[1]{#1}
 
-% Code highlighting
-\usepackage{fancyvrb}
-\usepackage{listings}
-
-% Better code block handling to prevent overfull boxes
-% Use default fancyvrb settings to avoid conflicts
-
-$if(highlighting-macros)$
-$highlighting-macros$
-$endif$
+% Code highlighting with Minted (requires Pygments)
+\usepackage{minted}
+\setminted{
+  breaklines=true,
+  breakanywhere=false,
+  breakafter=-/,
+  breaksymbol=\tiny\ensuremath{\hookrightarrow},
+  fontsize=\small,
+  xleftmargin=0pt,
+  xrightmargin=0pt,
+  frame=none,
+  framesep=0pt,
+  bgcolor=white
+}
 
 % Custom callout boxes using tcolorbox
 \usepackage{tcolorbox}

@@ -473,6 +473,7 @@ class BookBuilder {
         `--defaults=${path.resolve(this.rootDir, config.pandoc.defaultsFile)}`
       );
       pandocArgs.push(`--pdf-engine=${outputConfig.engine}`);
+      pandocArgs.push(`--pdf-engine-opt=-shell-escape`); // Required for Minted syntax highlighting
       pandocArgs.push(`--dpi=${outputConfig.dpi}`);
       
       // Choose template based on PDF type
@@ -522,9 +523,11 @@ class BookBuilder {
         cwd: this.rootDir,
       };
 
-      // For PDF builds, extend PATH to include TeX Live
+      // For PDF builds, extend PATH to include TeX Live and Python venv
       if (isPdfTarget) {
+        const venvPath = path.resolve(this.toolsDir, '.venv/bin');
         const extendedPath =
+          venvPath + ':' +
           process.env.PATH +
           ":/usr/local/texlive/2025/bin/universal-darwin:/usr/local/texlive/2024/bin/universal-darwin:/usr/local/texlive/2023/bin/universal-darwin";
         execOptions.env = { ...process.env, PATH: extendedPath };

@@ -42,3 +42,4 @@ coverage/
 # yarn.lock# Large emoji fonts (>100MB)
 fonts/AppleColorEmoji.ttf
 fonts/Apple Color Emoji.ttf
+.venv/

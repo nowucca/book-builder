@@ -30,6 +30,7 @@ citeproc: true
 
 # Filters (processed in order)
 filters:
+  - book-builder/templates/filters/minted-filter.lua
   - book-builder/templates/filters/callout-filter.lua
   - book-builder/templates/filters/link-filter.lua
 
@@ -74,9 +75,9 @@ variables:
   citecolor: "blue"
   toccolor: "black"
   
-  # Code styling
-  listings: true
-  highlight-style: github
+  # Code styling (using minted via filter)
+  # listings: false  # Using minted instead
+  # highlight-style: null  # Minted handles syntax highlighting
   
   # Custom styling flags
   book-style: true
