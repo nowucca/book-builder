@@ -61,7 +61,8 @@ module.exports = {
       engine: 'xelatex',
       dpi: 300,
       pdfType: 'interactive', // Enable hyperlinks and bookmarks
-      standalone: true
+      standalone: true,
+      defaultsFile: 'book-builder/config/pandoc-defaults-digital.yaml'
     },
     print: {
       directory: './build/print',
@@ -71,7 +72,8 @@ module.exports = {
       dpi: 300,
       pdfType: 'x1a', // PDF/X-1a compliance for printing
       colorProfile: 'FOGRA39',
-      standalone: true
+      standalone: true,
+      defaultsFile: 'book-builder/config/pandoc-defaults-print.yaml'
     },
     web: {
       directory: './build/web',

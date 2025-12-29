@@ -1,0 +1,88 @@
+# Pandoc Defaults for Constellize Book
+# PDF/X-1a Book Production Settings
+
+# Input/Output
+from: markdown+smart+yaml_metadata_block+fenced_code_blocks+backtick_code_blocks+pipe_tables+grid_tables+simple_tables+multiline_tables+footnotes+inline_notes+citations+raw_html+markdown_in_html_blocks+native_divs+native_spans+fenced_divs+bracketed_spans+definition_lists+example_lists+startnum+fancy_lists+task_lists+line_blocks+escaped_line_breaks+link_attributes+autolink_bare_uris+implicit_header_references+blank_before_header+space_in_atx_header+header_attributes+implicit_figures+fenced_code_attributes+inline_code_attributes+raw_attribute
+
+# PDF Engine Configuration
+pdf-engine: xelatex
+pdf-engine-opts:
+  - "-halt-on-error"
+  - "-file-line-error"
+
+# Template and Styling
+template: book-builder/templates/book.latex
+
+
+
+# Image processing
+dpi: 300
+
+# Table of Contents
+toc: true
+toc-depth: 3
+
+# Section numbering
+number-sections: true
+
+# Cross-references
+citeproc: true
+
+# Filters (processed in order) - Digital version with left-bar callouts
+filters:
+  - book-builder/templates/filters/minted-filter.lua
+  - book-builder/templates/filters/callout-filter-digital.lua
+  - book-builder/templates/filters/link-filter.lua
+
+# Metadata
+metadata-files:
+  - book-builder/templates/metadata.yaml
+
+
+# Variables for template
+variables:
+  # Document class and options
+  documentclass: book
+  classoption:
+    - twoside
+    - openright
+    - 11pt
+  
+  # Font sizes
+  fontsize: 11pt
+  
+  # Book information
+  title: "The Constellize Method"
+  subtitle: "Building Software Systems from Knowledge"
+  author: "Steve Atkinson"
+  publisher: "Constellize Press"
+  
+  # PDF metadata
+  subject: "Software Engineering Methodology"
+  keywords: "Software Engineering, AI, Development, Constellize"
+  
+  # Layout
+  linestretch: 1.2
+  indent: true
+  
+  # Geometry (book dimensions)
+  geometry: "papersize=letter,margin=1in,bindingoffset=0.2in,heightrounded"
+  
+  # Colors and links
+  colorlinks: true
+  linkcolor: "black"
+  urlcolor: "blue"
+  citecolor: "blue"
+  toccolor: "black"
+  
+  # Code styling (using minted via filter)
+  # listings: false  # Using minted instead
+  # highlight-style: null  # Minted handles syntax highlighting
+  
+  # Custom styling flags
+  book-style: true
+  professional: true
+
+# Output options
+standalone: true
+self-contained: false

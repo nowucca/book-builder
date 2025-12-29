@@ -469,8 +469,10 @@ class BookBuilder {
 
     if (isPdfTarget) {
       // PDF-specific settings
+      // Use target-specific defaults file if specified, otherwise use global defaults
+      const defaultsFile = outputConfig.defaultsFile || config.pandoc.defaultsFile;
       pandocArgs.push(
-        `--defaults=${path.resolve(this.rootDir, config.pandoc.defaultsFile)}`
+        `--defaults=${path.resolve(this.rootDir, defaultsFile)}`
       );
       pandocArgs.push(`--pdf-engine=${outputConfig.engine}`);
       pandocArgs.push(`--pdf-engine-opt=-shell-escape`); // Required for Minted syntax highlighting
