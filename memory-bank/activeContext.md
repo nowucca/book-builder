@@ -1,6 +1,6 @@
 # Active Context: Book-Builder
 
-**Last Updated**: December 28, 2024
+**Last Updated**: December 29, 2024
 **Current Version**: 1.0.0
 **Status**: Production Ready
 
@@ -8,18 +8,28 @@
 
 ## Current Focus
 
-### Recent Completion: Digital/Print Callout Styling Variants ✅
+### Recent Completion: Digital Callout Perfect Rounded Design ✅
 
-**What Was Completed** (December 28, 2024 Evening):
+**What Was Completed** (December 29, 2024):
+- ✅ Final callout design with rounded corners and curved left bar
+- ✅ Rounded box corners (3pt arc) for modern appearance
+- ✅ Custom TikZ path with arcs matching box corners exactly
+- ✅ Left bar curves follow top-left and bottom-left corners seamlessly
+- ✅ Matching light colored backgrounds (title and content)
+- ✅ Bold black title text for readability
+- ✅ Multiple iterations to eliminate rendering artifacts
+- ✅ Perfect corner alignment achieved (f2dc254)
+
+### Earlier: Digital/Print Callout Styling Variants ✅
+
+**What Was Completed** (December 28-29, 2024):
 - ✅ Created separate callout filters for digital and print formats
-- ✅ Digital: left-bar style (`frame hidden` + `borderline west`) for modern look
+- ✅ Digital: rounded corners with curved left bar
 - ✅ Print: complete box style (`colframe`) for traditional publishing
 - ✅ Created `pandoc-defaults-digital.yaml` and `pandoc-defaults-print.yaml`
 - ✅ Updated `book.config.js` to specify `defaultsFile` per output target
 - ✅ Updated `build-book.js` to use target-specific defaults file
-- ✅ Digital optimizations: reduced margins (code=0.5em/0em, others=1em/0em)
-- ✅ Both formats tested and working correctly
-- ✅ Committed changes (a96c0a3)
+- ✅ Iterative refinements for perfect rendering
 
 ### Earlier: Minted Integration & Python Dependency Management ✅
 
@@ -106,7 +116,36 @@
 
 **Result**: Clean separation, both builds working, modern digital look with traditional print reliability
 
-### Decision 3: Node Modules Exclusion Strategy
+### Decision 3: Rounded Corners with Curved Left Bar for Digital
+**Date**: December 29, 2024
+**Context**: Digital callouts needed polished, professional appearance with rounded corners
+
+**Decision**: Rounded box corners with custom TikZ path for curved left bar
+
+**Alternatives Considered**:
+- Sharp corners: Too harsh, not modern enough
+- `borderline west` with rounded corners: Creates rendering artifacts, bar doesn't follow curves
+- Rounded corners on bar itself: Made all edges round, looked wrong
+- Complex swooped designs: Too complicated, rendering issues
+
+**Implementation**:
+- Box with 3pt rounded corners (`rounded corners, arc=3pt`)
+- Custom TikZ overlay path with arc[] commands
+- Left bar follows box's top-left and bottom-left corner curves exactly
+- Right side of bar remains straight (4pt wide)
+- Uses `frame` coordinates to cover both title and content
+- Matching light colored backgrounds throughout
+- Bold black title text
+
+**Rationale**:
+- Rounded corners provide modern, polished appearance
+- Curved bar integration eliminates visual discontinuities
+- Precise TikZ paths ensure perfect alignment
+- Matches professional design standards
+
+**Result**: Beautiful rounded callouts with seamless corner integration, professional appearance
+
+### Decision 4: Node Modules Exclusion Strategy
 **Date**: December 25, 2024
 **Context**: Emoji validation was scanning node_modules causing false positives
 

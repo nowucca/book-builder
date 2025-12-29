@@ -1,6 +1,6 @@
 # Progress: Book-Builder
 
-**Last Updated**: December 28, 2024
+**Last Updated**: December 29, 2024
 **Current Version**: 1.0.0
 **Status**: Production Ready
 
@@ -65,6 +65,18 @@
 - ✅ Print: colframe (traditional complete boxes)
 - ✅ Both builds tested and working correctly
 - ✅ Result: Clean separation, modern digital with traditional print
+
+### Digital Callout Rounded Design (December 29, 2024) ✅
+- ✅ Added rounded corners to digital callout boxes (3pt arc)
+- ✅ Created custom TikZ path for curved left bar
+- ✅ Left bar curves match box corners at top-left and bottom-left
+- ✅ Multiple iterations to perfect corner alignment
+- ✅ Eliminated rendering artifacts (white space and lines)
+- ✅ Used frame coordinates to cover both title and content
+- ✅ Matching light colored backgrounds throughout
+- ✅ Bold black title text for readability
+- ✅ Final design: f2dc254
+- ✅ Result: Professional, polished rounded callouts with seamless integration
 
 ---
 
