@@ -37,14 +37,14 @@ local callouts = {
   }
 }
 
--- Generate LaTeX callout box (no emojis) - HTML-style with colored title and flowing left bar
+-- Generate LaTeX callout box (no emojis) - HTML-style with colored text title and swooped left bar
 function generateLatexCallout(calloutType, content)
   local config = callouts[calloutType]
   if not config then
     return nil
   end
 
-  -- Modern style matching HTML version exactly
+  -- HTML-style: colored text title (no colored background), swooped left bar
   -- Code callouts: 1em title left margin, 0.5em content left/right
   -- Other callouts: 1em all around
   local contentMargins = ""
@@ -56,13 +56,12 @@ function generateLatexCallout(calloutType, content)
     contentMargins = ",\n  left=1em,\n  right=1em,\n  top=0.5em,\n  bottom=0.5em"
   end
 
-  -- Rounded box with colored title background and flowing left bar (HTML-style)
+  -- Rounded box with colored text title and swooped left bar (HTML-style)
   local latex = string.format([[
 \begin{tcolorbox}[
   colback=%s!5!white,
-  colbacktitle=%s!75!black,
-  coltitle=white,
-  title={\hspace{%s}\textbf{%s}},
+  coltitle=%s!75!black,
+  title={\hspace{%s}\textcolor{%s!75!black}{\textbf{%s}}},
   fonttitle=\small,
   frame hidden,
   breakable,
@@ -72,22 +71,24 @@ function generateLatexCallout(calloutType, content)
   boxrule=0pt,
   toptitle=0.3em,
   bottomtitle=0.3em,
-  left=0pt,
   overlay={
-    \fill[%s!75!black,rounded corners=3pt]
-      ([xshift=0pt]title.north west) --
-      ([xshift=0pt]title.south west) to[out=-90,in=90]
-      ([xshift=2pt,yshift=-2pt]frame.north west) --
-      ([xshift=2pt,yshift=2pt]frame.south west) to[out=-90,in=180]
-      ([xshift=0pt,yshift=0pt]frame.south west) --
-      ([xshift=6pt,yshift=0pt]frame.south west) to[out=0,in=-90]
-      ([xshift=6pt,yshift=2pt]frame.south west) --
-      ([xshift=6pt,yshift=-2pt]frame.north west) to[out=90,in=-90]
-      ([xshift=6pt,yshift=0pt]title.south west) --
-      ([xshift=6pt]title.north west) -- cycle;
+    \fill[%s!75!black]
+      ([xshift=2pt,yshift=-3pt]interior.north west)
+      to[out=90,in=180] ([xshift=0pt,yshift=0pt]interior.north west)
+      to[out=0,in=90] ([xshift=2pt,yshift=-3pt]interior.north west)
+      -- ([xshift=2pt,yshift=3pt]interior.south west)
+      to[out=-90,in=180] ([xshift=0pt,yshift=0pt]interior.south west)
+      to[out=0,in=-90] ([xshift=2pt,yshift=3pt]interior.south west)
+      -- ([xshift=6pt,yshift=3pt]interior.south west)
+      to[out=-90,in=0] ([xshift=0pt,yshift=0pt]interior.south west)
+      to[out=180,in=-90] ([xshift=6pt,yshift=3pt]interior.south west)
+      -- ([xshift=6pt,yshift=-3pt]interior.north west)
+      to[out=90,in=0] ([xshift=0pt,yshift=0pt]interior.north west)
+      to[out=180,in=90] ([xshift=6pt,yshift=-3pt]interior.north west)
+      -- cycle;
   }%s
 ]
-]], config.latexcolor, config.latexcolor, titleLeftMargin, config.title, config.latexcolor, contentMargins)
+]], config.latexcolor, config.latexcolor, titleLeftMargin, config.latexcolor, config.title, config.latexcolor, contentMargins)
 
   -- Add content
   for _, block in ipairs(content) do
