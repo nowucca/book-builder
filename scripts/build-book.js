@@ -29,7 +29,8 @@ class BookBuilder {
 
     this.rootDir = config.source.root;
     this.buildDir = path.resolve(this.rootDir, "build");
-    this.toolsDir = path.resolve(this.rootDir, "tools");
+    // book-builder directory is the parent of the scripts directory
+    this.toolsDir = path.resolve(__dirname, "..");
   }
 
   /**

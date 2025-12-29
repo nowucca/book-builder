@@ -23,12 +23,12 @@ module.exports = {
     foreword: 'foreword-faq.md', // Foreword comes first
     chapters: ['ch[1-9].md'], // Main chapters (1-9)
     bibliography: 'references.json', // Bibliography database (CSL-JSON)
-    appendices: ['app[A-G].md'], // Appendices (A-G)
+    appendices: ['app[BC].md'], // Appendices (B-C only, A/D/E/F/G migrated)
     codebase: './codepromptu',
     images: './images',
     media: './media',
     excludePatterns: [
-      'tools/**',
+      'book-builder/**',
       'build/**', 
       'node_modules/**',
       '.git/**',
@@ -105,13 +105,13 @@ module.exports = {
 
   // Pandoc configuration
   pandoc: {
-    defaultsFile: 'tools/config/pandoc-defaults.yaml',
-    template: 'tools/templates/book.latex',
+    defaultsFile: 'book-builder/config/pandoc-defaults.yaml',
+    template: 'book-builder/templates/book.latex',
     filters: [
-      'tools/templates/filters/callout-filter.lua',
-      'tools/templates/filters/link-filter.lua'
+      'book-builder/templates/filters/callout-filter.lua',
+      'book-builder/templates/filters/link-filter.lua'
     ],
-    metadata: 'tools/templates/metadata.yaml'
+    metadata: 'book-builder/templates/metadata.yaml'
   },
 
   // Citation configuration
@@ -119,9 +119,9 @@ module.exports = {
     bibliography: 'references.json', // Bibliography database file
     defaultStyle: 'chicago', // Default citation style
     styles: {
-      apa: 'tools/styles/citations/apa.csl',
-      chicago: 'tools/styles/citations/chicago-author-date.csl',
-      ieee: 'tools/styles/citations/ieee.csl'
+      apa: 'book-builder/styles/citations/apa.csl',
+      chicago: 'book-builder/styles/citations/chicago-author-date.csl',
+      ieee: 'book-builder/styles/citations/ieee.csl'
     },
     // Style per output format (optional overrides)
     outputStyles: {
@@ -138,7 +138,7 @@ module.exports = {
   fonts: {
     main: {
       name: "Atkinson Hyperlegible Next",
-      path: "tools/fonts/",
+      path: "book-builder/fonts/",
       files: {
         // Using AtkinsonHyperlegibleNext fonts
         regular: "AtkinsonHyperlegibleNext-Regular",
@@ -155,7 +155,7 @@ module.exports = {
     },
     mono: {
       name: "Atkinson Hyperlegible Mono",
-      path: "tools/fonts/",
+      path: "book-builder/fonts/",
       files: {
         regular: "AtkinsonHyperlegibleMono-Regular",
         bold: "AtkinsonHyperlegibleMono-Bold",
