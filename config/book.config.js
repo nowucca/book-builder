@@ -23,7 +23,7 @@ module.exports = {
     foreword: 'foreword-faq.md', // Foreword comes first
     chapters: ['ch[1-9].md'], // Main chapters (1-9)
     bibliography: 'references.json', // Bibliography database (CSL-JSON)
-    appendices: ['app[BC].md'], // Appendices (B-C only, A/D/E/F/G migrated)
+    appendices: ['app[AB].md'], // Appendices (A-B only, others migrated to website)
     codebase: './codepromptu',
     images: './images',
     media: './media',
