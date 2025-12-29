@@ -45,15 +45,16 @@ function generateLatexCallout(calloutType, content)
   end
   
   -- Left-bar style for digital PDF (modern, more width)
-  -- Code callouts get tighter left margin, all get proper right margin
+  -- Code callouts: 0.5em left/right, others: 1em all around
+  -- All callouts: 1em top/bottom
   local extraOptions = ""
   if calloutType == "code" then
-    extraOptions = ",\n  left=0.5em,\n  right=1em"
+    extraOptions = ",\n  left=0.5em,\n  right=0.5em,\n  top=1em,\n  bottom=1em"
   else
-    extraOptions = ",\n  left=1em,\n  right=1em"
+    extraOptions = ",\n  left=1em,\n  right=1em,\n  top=1em,\n  bottom=1em"
   end
 
-  -- Use overlay to draw left bar only on body (below title)
+  -- Use overlay to draw left bar starting below the attached title
   local latex = string.format([[
 \begin{tcolorbox}[
   colback=%s!5!white,
@@ -62,12 +63,12 @@ function generateLatexCallout(calloutType, content)
   breakable,
   enhanced,
   attach boxed title to top left={yshift=-2mm, xshift=6pt},
-  boxed title style={size=small,colback=%s!75!black},
+  boxed title style={size=small,colback=%s!75!black,halign=left},
   toptitle=1mm,
   bottomtitle=1mm,
   overlay={
     \draw[line width=4pt,%s!75!black]
-      ([xshift=2pt]frame.north west) -- ([xshift=2pt]frame.south west);
+      ([xshift=2pt,yshift=-8mm]frame.north west) -- ([xshift=2pt]frame.south west);
   }%s
 ]
 ]], config.latexcolor, config.title, config.latexcolor, config.latexcolor, extraOptions)
