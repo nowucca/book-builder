@@ -37,18 +37,17 @@ local callouts = {
   }
 }
 
--- Generate LaTeX callout box (no emojis) - HTML-style with colored text title and swooped left bar
+-- Generate LaTeX callout box (no emojis) - Clean modern style
 function generateLatexCallout(calloutType, content)
   local config = callouts[calloutType]
   if not config then
     return nil
   end
 
-  -- HTML-style: colored text title (no colored background), swooped left bar
-  -- Code callouts: 1em title left margin, 0.5em content left/right
-  -- Other callouts: 1em all around
+  -- Clean modern style: colored title bar, straight left bar, no rounded corners
+  -- Code callouts: 0.5em content left/right
+  -- Other callouts: 1em content left/right
   local contentMargins = ""
-  local titleLeftMargin = "1em"
 
   if calloutType == "code" then
     contentMargins = ",\n  left=0.5em,\n  right=0.5em,\n  top=0.5em,\n  bottom=0.5em"
@@ -56,39 +55,25 @@ function generateLatexCallout(calloutType, content)
     contentMargins = ",\n  left=1em,\n  right=1em,\n  top=0.5em,\n  bottom=0.5em"
   end
 
-  -- Rounded box with colored text title and swooped left bar (HTML-style)
+  -- Clean box with colored title bar and straight left bar
   local latex = string.format([[
 \begin{tcolorbox}[
   colback=%s!5!white,
-  coltitle=%s!75!black,
-  title={\hspace{%s}\textcolor{%s!75!black}{\textbf{%s}}},
+  colbacktitle=%s!75!black,
+  coltitle=white,
+  title={\textbf{%s}},
   fonttitle=\small,
   frame hidden,
   breakable,
   enhanced,
-  rounded corners,
-  arc=3pt,
+  sharp corners,
   boxrule=0pt,
   toptitle=0.3em,
   bottomtitle=0.3em,
-  overlay={
-    \fill[%s!75!black]
-      ([xshift=2pt,yshift=-3pt]interior.north west)
-      to[out=90,in=180] ([xshift=0pt,yshift=0pt]interior.north west)
-      to[out=0,in=90] ([xshift=2pt,yshift=-3pt]interior.north west)
-      -- ([xshift=2pt,yshift=3pt]interior.south west)
-      to[out=-90,in=180] ([xshift=0pt,yshift=0pt]interior.south west)
-      to[out=0,in=-90] ([xshift=2pt,yshift=3pt]interior.south west)
-      -- ([xshift=6pt,yshift=3pt]interior.south west)
-      to[out=-90,in=0] ([xshift=0pt,yshift=0pt]interior.south west)
-      to[out=180,in=-90] ([xshift=6pt,yshift=3pt]interior.south west)
-      -- ([xshift=6pt,yshift=-3pt]interior.north west)
-      to[out=90,in=0] ([xshift=0pt,yshift=0pt]interior.north west)
-      to[out=180,in=90] ([xshift=6pt,yshift=-3pt]interior.north west)
-      -- cycle;
-  }%s
+  left=8pt,
+  borderline west={4pt}{0pt}{%s!75!black}%s
 ]
-]], config.latexcolor, config.latexcolor, titleLeftMargin, config.latexcolor, config.title, config.latexcolor, contentMargins)
+]], config.latexcolor, config.latexcolor, config.title, config.latexcolor, contentMargins)
 
   -- Add content
   for _, block in ipairs(content) do
