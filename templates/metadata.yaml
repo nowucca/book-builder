@@ -39,10 +39,14 @@ book:
     - "Teams and Knowledge Stewardship"
     - "The Future of Knowledge-Driven Development"
   appendices:
-    - "CodePromptu Implementation Guide"
-    - "Tool Recommendations"
-    - "Further Reading"
-    - "Glossary"
+    - "Constellize Method Summary"
+    - "A Manifesto for Constellize"
+  online_resources:
+    - "Prompts & Templates (https://constellize.com/book/prompts)"
+    - "Implementation Guide (https://constellize.com/book/implementation)"
+    - "Project Structure Reference (https://constellize.com/book/project-structure)"
+    - "Measuring Impact & ROI (https://constellize.com/book/metrics)"
+    - "CodePromptu Implementation (https://github.com/constellize/codepromptu)"
 
 # Copyright and legal
 copyright: "© 2025 Steve Atkinson. All rights reserved."
