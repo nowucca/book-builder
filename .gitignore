@@ -39,4 +39,6 @@ coverage/
 
 # Package manager lock files (optional, keep if you want to commit them)
 # package-lock.json
-# yarn.lock
+# yarn.lock# Large emoji fonts (>100MB)
+fonts/AppleColorEmoji.ttf
+fonts/Apple Color Emoji.ttf
