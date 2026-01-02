@@ -31,7 +31,7 @@ citeproc: true
 # Filters (processed in order)
 filters:
   - book-builder/templates/filters/minted-filter.lua
-  - book-builder/templates/filters/callout-filter.lua
+  - book-builder/templates/filters/callout-filter-digital.lua
   - book-builder/templates/filters/link-filter.lua
 
 # Metadata
