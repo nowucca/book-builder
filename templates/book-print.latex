@@ -118,7 +118,8 @@ $endif$
 \setminted{
   breaklines=true,
   breakanywhere=false,
-  breakafter=-/,
+  breakafter=-./(,
+  breakbefore=.,
   breaksymbol=\tiny\ensuremath{\hookrightarrow},
   fontsize=\small,
   xleftmargin=0pt,
