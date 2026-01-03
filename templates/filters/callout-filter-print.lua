@@ -58,7 +58,9 @@ function generateLatexCallout(calloutType, content)
   breakable,
   enhanced,
   attach boxed title to top left={yshift=-2mm, xshift=2mm},
-  boxed title style={size=small,colback=%s!75!black}%s
+  boxed title style={size=small,colback=%s!75!black},
+  top=0.75em,
+  bottom=0.5em%s
 ]
 ]], config.latexcolor, config.latexcolor, config.title, config.latexcolor, extraOptions)
   
