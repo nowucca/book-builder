@@ -49,14 +49,14 @@ book:
     - "CodePromptu Implementation (https://github.com/constellize/codepromptu)"
 
 # Copyright and legal
-copyright: "© 2025 Steve Atkinson. All rights reserved."
+copyright: "© 2025-2026 Steve Atkinson. All rights reserved."
 license: "All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the publisher."
 
 # ISBN and publishing details
 isbn: ""  # To be filled when available
 isbn13: ""  # To be filled when available
-edition: "Author Preview 2025.12"
-version: "2025.12"
+edition: "Author Preview 2026.01"
+version: "2026.01"
 
 # Technical metadata
 format: "PDF/X-1a"
