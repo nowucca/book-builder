@@ -79,9 +79,13 @@
 % Fix for Pandoc's citeproctext command - handle both with and without arguments
 \providecommand{\citeproctext}[1][]{\ifx\relax#1\relax\else#1\fi}
 
-% Fix for Pandoc's CSLReferences environment
+% Fix for Pandoc's CSLReferences environment - use list with no labels
 \newenvironment{CSLReferences}[2]
-  {\begin{list}{}{\setlength{\leftmargin}{#1em}\setlength{\itemindent}{-#1em}\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}}}
+  {\begin{list}{}{\setlength{\leftmargin}{#1em}\setlength{\itemindent}{-#1em}\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}}
+   \let\oldmakelabel\makelabel
+   \renewcommand{\makelabel}[1]{}
+   \let\olditem\item
+   \renewcommand{\item}[1][]{\olditem}}
   {\end{list}}
 
 % Page layout - simple approach without geometry package
